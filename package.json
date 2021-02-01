@@ -4,7 +4,8 @@
   "description": "A library of fitness functions",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node ./scripts/post-install.js"
   },
   "repository": {
     "type": "git",
