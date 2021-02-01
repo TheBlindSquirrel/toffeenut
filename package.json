@@ -1,11 +1,10 @@
 {
   "name": "toffeenut",
-  "version": "0.0.1",
+  "version": "0.0.1-prealpha",
   "description": "A library of fitness functions",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node ./scripts/post-install.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -23,5 +22,13 @@
   "bugs": {
     "url": "https://github.com/swernimo/toffeenut/issues"
   },
-  "homepage": "https://github.com/swernimo/toffeenut#readme"
+  "homepage": "https://github.com/swernimo/toffeenut#readme",
+  "dependencies": {
+    "@types/minimist": "^1.2.1",
+    "minimist": "^1.2.5"
+  },
+  "preferGlobal": false,
+  "directories": {
+    "bin": "./bin"
+  }
 }
