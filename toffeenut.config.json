@@ -1,3 +1,6 @@
 {
-    "interfacesInSameFile" : true
+    "checkPackageJson": { },
+    "singleExport": { 
+        "allowInterfaces" : true 
+    }
 }
