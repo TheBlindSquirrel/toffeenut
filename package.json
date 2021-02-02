@@ -1,6 +1,6 @@
 {
   "name": "toffeenut",
-  "version": "0.0.1-prealpha",
+  "version": "0.0.1-prealpha.001",
   "description": "A library of fitness functions",
   "main": "index.js",
   "scripts": {
@@ -24,8 +24,7 @@
   },
   "homepage": "https://github.com/swernimo/toffeenut#readme",
   "dependencies": {
-    "@types/minimist": "^1.2.1",
-    "minimist": "^1.2.5"
+    "minimist": "1.2.5"
   },
   "preferGlobal": false,
   "directories": {

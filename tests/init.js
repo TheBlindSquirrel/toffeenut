@@ -1,5 +1,10 @@
+const fs = require('fs');
+
 const init = function() {
-    console.log('inside toffeenut init');
+    fs.writeFileSync('./toffeenut.config.json', '{ \
+       "checkPackageJson": { }, \
+       "singleExport": { "allowInterfaces" : true } \
+    }');
 }
 
 module.exports = init;
