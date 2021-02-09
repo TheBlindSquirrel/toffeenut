@@ -1,6 +1,5 @@
 const fs = require('fs');
 const checkPackageJson = require('./checkPackageJson');
-const toffeenutconfig = require('../models/toffeenut.config');
 
 const run = function() {
     console.log('======running toffeenut ==========');
@@ -9,10 +8,8 @@ const run = function() {
         if (err) {
             console.log(`Error could not load config file`); //display in red
         } else {
-            let config = new toffeenutconfig();
-            const configJSON = Object.assign(config, data);
             // parse JSON string to JSON object
-            // const databases = JSON.parse(data);
+            const config = JSON.parse(data);
     
             // // print all databases
             if (config) {
