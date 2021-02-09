@@ -1,6 +1,6 @@
 {
   "name": "toffeenut",
-  "version": "0.0.1-prealpha.005",
+  "version": "0.0.1-prealpha.006",
   "description": "A library of fitness functions",
   "main": "index.js",
   "scripts": {
