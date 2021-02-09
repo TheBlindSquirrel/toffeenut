@@ -1,6 +1,9 @@
 {
-    "checkPackageJson": { },
+    "checkPackageJson": { 
+        "enabled": true
+    },
     "singleExport": { 
-        "allowInterfaces" : true 
+        "allowInterfaces" : true,
+        "enabled": true
     }
 }
