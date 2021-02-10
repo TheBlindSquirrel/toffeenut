@@ -28,7 +28,7 @@ Each test has a section in the ``toffeenut.config.json``. One common property th
     }
 
 ### Check Package JSON
-This test goes through the package.json file (assumed to be at the same level as ``toffeenut.config.json``) and checks the dependencies and devDepencies to make sure that all versions are pinned, no [special version characters](https://nodejs.dev/learn/semantic-versioning-using-npm) (^, ~, latest, etc). Below are the allowed config values for ``Check Package Json`` test.
+This test goes through the package.json file (assumed to be at the same level as ``toffeenut.config.json``) and checks the dependencies and devDepencies to make sure that all versions are pinned, no [special version characters](https://nodejs.dev/learn/semantic-versioning-using-npm) (^, ~, latest, etc). Below are the allowed config values for ``Check Package Json`` test. Packages that are pinned using ``=`` will pass.
 
 Config Name | Default Value | Description
 :---------: | :-----------: | :--:

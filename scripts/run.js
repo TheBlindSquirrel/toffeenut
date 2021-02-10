@@ -3,9 +3,10 @@ const checkPackageJson = require('./checkPackageJson');
 
 const run = function() {
     console.log('====== running toffeenut ==========');
+    var errorMsg = [];
     fs.readFile('./toffeenut.config.json', 'utf8', (err, data) => {
         if (err) {
-            console.log(`Error could not load config file`); //display in red
+            errorMsg.push('Error could not load config file');
         } else {
             // parse JSON string to JSON object
             const config = JSON.parse(data);
@@ -13,7 +14,7 @@ const run = function() {
             // // print all databases
             if (config) {
                 if (config.checkPackageJson && config.checkPackageJson.enabled) {
-                    checkPackageJson();
+                    errorMsg.push(checkPackageJson());
                 }
                 // console.log(`Config Single Export is enabled: ${config.singleExport.enabled}`);
                 // console.log(`Config Single Export allow interfaces: ${config.singleExport.allowInterfaces}`);
