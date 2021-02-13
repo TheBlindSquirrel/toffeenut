@@ -1,6 +1,6 @@
 {
   "name": "toffeenut",
-  "version": "0.0.1",
+  "version": "0.0.2-prelease.1",
   "description": "A library of fitness functions",
   "main": "index.js",
   "scripts": {
@@ -12,8 +12,7 @@
   "keywords": [
     "toffeenut",
     "testing",
-    "fitness",
-    "functions",
+    "fitness functions",
     "automation"
   ],
   "author": "Sean Wernimont",
@@ -23,7 +22,7 @@
   },
   "homepage": "https://github.com/swernimo/toffeenut#readme",
   "dependencies": {
-    "colors": "^1.4.0",
+    "colors": "1.4.0",
     "minimist": "1.2.5"
   },
   "preferGlobal": false,
