@@ -33,5 +33,3 @@ This test goes through the package.json file (assumed to be at the same level as
 Config Name | Default Value | Description
 :---------: | :-----------: | :--:
 Enabled     | true          | If the test should be run
-Path        | "./"          | The path to the package.json file
-

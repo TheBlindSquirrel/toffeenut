@@ -1,27 +1,29 @@
 const fs = require('fs');
+const colors = require('colors');
+const { exit } = require('process');
 const checkPackageJson = require('./checkPackageJson');
 
 const run = function() {
-    console.log('====== running toffeenut ==========');
+    console.log('====== running toffeenut ==========', colors.black);
     var errorMsg = [];
-    fs.readFile('./toffeenut.config.json', 'utf8', (err, data) => {
-        if (err) {
-            errorMsg.push('Error could not load config file');
-        } else {
-            // parse JSON string to JSON object
-            const config = JSON.parse(data);
-    
-            // // print all databases
-            if (config) {
-                if (config.checkPackageJson && config.checkPackageJson.enabled) {
-                    errorMsg.push(checkPackageJson());
-                }
-                // console.log(`Config Single Export is enabled: ${config.singleExport.enabled}`);
-                // console.log(`Config Single Export allow interfaces: ${config.singleExport.allowInterfaces}`);
-            }
+    try {
+        const file = fs.readFileSync('./toffeenut.config.json', 'utf8');
+        const config = JSON.parse(file);
+        if (config.checkPackageJson && config.checkPackageJson.enabled) {
+            errorMsg = errorMsg.concat(checkPackageJson());
         }
-    
-    });
+    } catch(_) {
+        errorMsg.push('Error loading toffeenut config file');
+    }
+    if (errorMsg.length > 0) {
+        errorMsg.forEach(msg => {
+            console.log(msg, colors.red);
+        });
+        exit -1;
+    } else {
+        console.log('All Tests Passed', colors.green);
+        exit;
+    }
 }
 
 module.exports = run;
