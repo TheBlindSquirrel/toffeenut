@@ -1,9 +1,9 @@
 {
-    "checkPackageJson": { 
+    "checkPackageJson": {
         "enabled": true
     },
     "singleExport": { 
-        "allowInterfaces" : true,
-        "enabled": true
+        "enabled": true,
+        "rootPath": ""
     }
 }

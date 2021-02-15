@@ -6,7 +6,7 @@ const init = function() {
         \t"enabled": false \r\n\
        \t}, \r\n\
        "singleExport": { \r\n\
-        \t"allowInterfaces" : true, \r\n\
+        \t"rootPath" : \"\", \r\n\
         \t"enabled": true \r\n\
         \t}\r\n \
     }');

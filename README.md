@@ -40,12 +40,12 @@ enabled     | true          | If the test should be run | false
 ### **Single Export**
 **since 0.0.2**
 
-This test goes through every js/ts file and makes sure each files only has a single export.
+This test goes through every ts file and makes sure each files only has a single export.
 
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
 enabled     | true          | If the test should be run | false
-rootPath | '' | The root folder to search through for all ts/js  | true
+rootPath | '' | The root folder to search through for all ts files  | true
 
 
 ### **Plugin Only Called Once**
