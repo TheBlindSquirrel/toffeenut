@@ -73,3 +73,8 @@ This test looks to see if interfaces are implemented in any other class
 **since TDB**
 
 This test checks all scss files for hex color values.
+
+### **Import Statement Tests***
+**since TBD**
+
+These tests will prevent src/app or require src/app in the import statements.
