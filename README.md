@@ -72,7 +72,7 @@ This test looks to see if interfaces are implemented in any other class
 ### **Limit Hex Colors**
 **since TDB**
 
-This test checks that colors are defined only in a single file. 
+This test checks that colors are defined only in a single file. It uses a regex to check for hex colors and rgba defined colors in scss files.
 
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
