@@ -82,6 +82,16 @@ checkHTML | false | If true this test also check html files for hex colors. | fa
 checkForRGBA | false | If true this test will also check if rgba colors are defined anywhere other than the colors file | false
 ignoreFilePath | '' | All files under this path will be ignored. Set this if you import a theme or 3rd party library that you do not want to be checked. | false
 
+### **No !Import in styles***
+**since TBD**
+
+This test will fail if there are any !important styles in your styles.
+Config Name | Default Value | Description               | Required
+:---------: | :-----------: | :---------:               | :--:
+enabled     | true          | If the test should be run | false
+colorsFilePath | '' | The path to the file that contains all of the color variables  | true
+ignoreFilePath | '' | All files under this path will be ignored. Set this if you import a theme or 3rd party library that you do not want to be checked. | false
+
 ### **Import Statement Tests***
 **since TBD**
 
