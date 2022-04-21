@@ -89,7 +89,6 @@ This test will fail if there are any !important styles in your styles.
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
 enabled     | true          | If the test should be run | false
-colorsFilePath | '' | The path to the file that contains all of the color variables  | true
 ignoreFilePath | '' | All files under this path will be ignored. Set this if you import a theme or 3rd party library that you do not want to be checked. | false
 
 ### **Import Statement Tests**
