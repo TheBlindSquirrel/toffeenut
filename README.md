@@ -81,6 +81,7 @@ colorsFilePath | '' | The path to the file that contains all of the color variab
 checkHTML | false | If true this test also check html files for hex colors. | false
 checkForRGBA | false | If true this test will also check if rgba colors are defined anywhere other than the colors file | false
 ignoreFilePath | '' | All files under this path will be ignored. Set this if you import a theme or 3rd party library that you do not want to be checked. | false
+rootPath | '' | All the files under this path will be checked. It can be either a theme folder (when checkHTML is false) or the root/src folder when you want to check all the scss files & html files. | ''
 
 ### **No !Import in styles**
 **since TBD**
