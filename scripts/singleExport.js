@@ -7,9 +7,13 @@ function singleExport(path) {
     }
     try{
         const files = getAllFiles(path);
+        //TODO: implement test
         console.log('');
     } catch(err) {
-        console.log('');//return err
+        return [
+            `Single Export encountered an error`,
+            JSON.stringify(err)    
+        ];
     }
     console.log('');
 }

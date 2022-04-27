@@ -2,7 +2,9 @@
 const checkPackageJson = require('./scripts/checkPackageJson');
 const run = require('./scripts/run');
 const singleExport = require('./scripts/singleExport');
+const hexColors = require('./scripts/hexColors');
 
 // checkPackageJson();
 // run();
-singleExport('./testFiles/singleExport');
+// singleExport('./testFiles/singleExport');
+hexColors('./testFiles/hexColors/colorFile.scss', './testFiles/hexColors');

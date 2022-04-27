@@ -18,7 +18,7 @@ const run = function() {
             errorMsg = errorMsg.concat(singleExport(config.singleExport.rootPath));
         }
         if(config.hexColors && (config.hexColors.enabled)) {
-            errorMsg = errorMsg.concat(config.hexColors.)
+            errorMsg = errorMsg.concat(hexColors(config.hexColors.colorsFilePath));
         }
     } catch(_) {
         errorMsg.push('Error loading toffeenut config file');

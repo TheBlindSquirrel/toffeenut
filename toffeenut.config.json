@@ -1,9 +1,9 @@
 {
     "checkPackageJson": {
-        "enabled": true
+        "enabled": false
     },
     "singleExport": { 
-        "enabled": true,
+        "enabled": false,
         "rootPath": ""
     },
     "hexColors": {
