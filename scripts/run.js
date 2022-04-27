@@ -3,6 +3,7 @@ const colors = require('colors');
 const { exit } = require('process');
 const checkPackageJson = require('./checkPackageJson');
 const singleExport = require('./singleExport');
+const hexColors = require('./hexColors');
 
 const run = function() {
     console.log('====== running toffeenut ==========', colors.black);
@@ -15,6 +16,9 @@ const run = function() {
         }
         if (config.singleExport && (config.singleExport.enabled || config.singleExport.enabled === undefined)) {
             errorMsg = errorMsg.concat(singleExport(config.singleExport.rootPath));
+        }
+        if(config.hexColors && (config.hexColors.enabled)) {
+            errorMsg = errorMsg.concat(config.hexColors.)
         }
     } catch(_) {
         errorMsg.push('Error loading toffeenut config file');

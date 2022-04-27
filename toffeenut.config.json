@@ -5,5 +5,13 @@
     "singleExport": { 
         "enabled": true,
         "rootPath": ""
+    },
+    "hexColors": {
+        "enabled": true,
+        "colorsFilePath": "",
+        "checkHTML": false,
+        "checkForRGBA": false,
+        "ignoreFilePath": "",
+        "rootPath": ""
     }
 }
