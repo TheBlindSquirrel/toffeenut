@@ -11,7 +11,7 @@
         "colorsFilePath": "",
         "checkHTML": false,
         "checkForRGBA": false,
-        "ignoreFilePath": "",
+        "ignoreDirectory": "",
         "rootPath": ""
     }
 }

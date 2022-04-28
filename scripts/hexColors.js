@@ -1,20 +1,39 @@
 const fs = require('fs');
 const Path = require("path");
 
-function hexColors(colorsFilePath, rootPath) {
-    if (!colorsFilePath) {
+function hexColors(config) {
+    if (!config.colorsFilePath) {
         return ["Hex Colors File Path cannot be empty"];
     }
-    if (!rootPath) {
+    if (!config.rootPath) {
         return ["Hex Colors root path cannot be empty"];
     }
     try{
-        const files = getAllFiles(rootPath);
-        console.log('');
+        var files = getAllFiles(config.rootPath);
+        files = files.filter(x => Path.resolve(x) != Path.resolve(config.colorsFilePath));
+        if (!config.checkHTML) {
+            files = files.filter(x => Path.extname(x) !== '.html' && Path.extname(x) !== '.htm');
+        }
+        if(config.ignoreDirectory) {
+            files = files.filter(x => Path.dirname(Path.resolve(x)) != Path.resolve(config.ignoreDirectory));
+        }
+        files.forEach(f => {
+            checkForHexColors(f);
+            if (config.checkForRGBA) {
+                checkForRGBA(f);
+            }
+        });
     } catch(err) {
-        console.log('');//return err
+        return[JSON.stringify(err)];
     }
-    console.log('');
+}
+
+function checkForHexColors(filePath) {
+    console.log('checking for hex colors');
+}
+
+function checkForRGBA(filePath) {
+    console.log('checking for RGBA colors');
 }
 
 function getAllFiles(path) {
@@ -27,7 +46,9 @@ function getAllFiles(path) {
             return files;
         }
         else {
-            return files.push(absolute);
+            if (Path.extname(absolute) !== '.ts'){
+                return files.push(absolute);
+            }
         }
     });
     return files;
