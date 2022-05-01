@@ -20,18 +20,15 @@ function hexColors(config) {
             files = files.filter(x => Path.dirname(Path.resolve(x)) != Path.resolve(config.ignoreDirectory));
         }
         files.forEach(f => {
-            // const fileName = 
+            const fileName = Path.basename(f);
             const fileRead = fs.readFileSync(f, 'UTF-8');
             const data = fileRead.split(os.EOL);
             data.forEach(l => {
                 const result = validateLine(l, config);
                 if(!result.isValid) {
                     result.errorMessages.forEach(msg => {
-                        const test = f;
-                        console.log();
+                        messages.push(`${fileName} ${msg}`);
                     });
-                    //error: ${File} has errors
-                    // messages.push(result.errorMessages);
                 }
             });
         });
@@ -72,8 +69,14 @@ function checkForHexColors(line) {
     return errorMessage;
 }
 
-function checkForRGBA(filePath) {
-    console.log('checking for RGBA colors');
+function checkForRGBA(line) {
+    let errorMessage = '';
+    const regex = new RegExp('#([0-9]{0,6}|[a-f]{0,6}){0,6}([0-9|a-f]){0,2};?');
+    if(regex.test(line)) {
+        const split = line.split(':');
+        errorMessage = `${split[0].trim()} has a rgb/rgba color defined`;
+    }
+    return errorMessage;
 }
 
 function getAllFiles(path) {
