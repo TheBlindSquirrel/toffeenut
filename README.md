@@ -79,7 +79,7 @@ Config Name | Default Value | Description               | Required
 enabled     | true          | If the test should be run | false
 colorsFilePath | '' | The path to the file that contains all of the color variables  | true
 checkHTML | false | If true this test also check html files for hex colors. | false
-checkForRGBA | false | If true this test will also check if rgba colors are defined anywhere other than the colors file | false
+checkForRGBA | false | If true this test will also check if rgb/rgba colors are defined anywhere other than the colors file | false
 ignoreDirectory | '' | All files under this directory will be ignored. Set this if you import a theme or 3rd party library that you do not want to be checked. | false
 rootPath | '' | All the files under this path will be checked. It can be either a theme folder (when checkHTML is false) or the root/src folder when you want to check all the scss files & html files. | true
 

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const Path = require("path");
+const os = require("os");
 
 function hexColors(config) {
     if (!config.colorsFilePath) {
@@ -10,6 +11,7 @@ function hexColors(config) {
     }
     try{
         var files = getAllFiles(config.rootPath);
+        var messages = [];
         files = files.filter(x => Path.resolve(x) != Path.resolve(config.colorsFilePath));
         if (!config.checkHTML) {
             files = files.filter(x => Path.extname(x) !== '.html' && Path.extname(x) !== '.htm');
@@ -18,18 +20,56 @@ function hexColors(config) {
             files = files.filter(x => Path.dirname(Path.resolve(x)) != Path.resolve(config.ignoreDirectory));
         }
         files.forEach(f => {
-            checkForHexColors(f);
-            if (config.checkForRGBA) {
-                checkForRGBA(f);
-            }
+            // const fileName = 
+            const fileRead = fs.readFileSync(f, 'UTF-8');
+            const data = fileRead.split(os.EOL);
+            data.forEach(l => {
+                const result = validateLine(l, config);
+                if(!result.isValid) {
+                    result.errorMessages.forEach(msg => {
+                        const test = f;
+                        console.log();
+                    });
+                    //error: ${File} has errors
+                    // messages.push(result.errorMessages);
+                }
+            });
         });
+        return messages;
     } catch(err) {
         return[JSON.stringify(err)];
     }
 }
 
-function checkForHexColors(filePath) {
-    console.log('checking for hex colors');
+function validateLine(line, config) {
+    const result = {
+        isValid: true,
+        errorMessages: []
+    };
+    const hexError = checkForHexColors(line);
+    let rgbError = '';
+    if (config.checkForRGBA) {
+        rgbError = checkForRGBA(f);
+    }
+    if(hexError) {
+        result.isValid = false;
+        result.errorMessages.push(hexError);
+    }
+    if(rgbError) {
+        result.isValid = false;
+        result.errorMessages.push(rgbError);
+    }
+    return result;
+}
+
+function checkForHexColors(line) {
+    let errorMessage = '';
+    const regex = new RegExp('#([0-9]{0,6}|[a-f]{0,6}){0,6}([0-9|a-f]){0,2};?');
+    if(regex.test(line)) {
+        const split = line.split(':');
+        errorMessage = `${split[0].trim()} has a hex color defined`;
+    }
+    return errorMessage;
 }
 
 function checkForRGBA(filePath) {
