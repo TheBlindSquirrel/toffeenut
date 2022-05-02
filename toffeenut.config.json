@@ -1,9 +1,17 @@
 {
     "checkPackageJson": {
-        "enabled": true
+        "enabled": false
     },
     "singleExport": { 
+        "enabled": false,
+        "rootPath": ""
+    },
+    "hexColors": {
         "enabled": true,
+        "colorsFilePath": "",
+        "checkHTML": false,
+        "checkForRGBA": false,
+        "ignoreDirectory": "",
         "rootPath": ""
     }
 }
