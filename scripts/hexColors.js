@@ -46,7 +46,7 @@ function validateLine(line, config) {
     const hexError = checkForHexColors(line);
     let rgbError = '';
     if (config.checkForRGBA) {
-        rgbError = checkForRGBA(f);
+        rgbError = checkForRGBA(line);
     }
     if(hexError) {
         result.isValid = false;
@@ -71,8 +71,7 @@ function checkForHexColors(line) {
 
 function checkForRGBA(line) {
     let errorMessage = '';
-    const regex = new RegExp('#([0-9]{0,6}|[a-f]{0,6}){0,6}([0-9|a-f]){0,2};?');
-    //rgb(a)?(/w)?\((\d{0,3},(\w)?){0,3}\)
+    const regex = new RegExp('(rgb)?a?\\\(?(\\\d{1,3},\\\s?){2}(\\\d{1,3})(,?\\\s?[0|1]?.?\\\d?)\\\)?');
     if(regex.test(line)) {
         const split = line.split(':');
         errorMessage = `${split[0].trim()} has a rgb/rgba color defined`;
