@@ -72,6 +72,7 @@ function checkForHexColors(line) {
 function checkForRGBA(line) {
     let errorMessage = '';
     const regex = new RegExp('#([0-9]{0,6}|[a-f]{0,6}){0,6}([0-9|a-f]){0,2};?');
+    //rgb(a)?(/w)?\((\d{0,3},(\w)?){0,3}\)
     if(regex.test(line)) {
         const split = line.split(':');
         errorMessage = `${split[0].trim()} has a rgb/rgba color defined`;
