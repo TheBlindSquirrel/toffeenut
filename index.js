@@ -4,13 +4,13 @@ const run = require('./scripts/run');
 const singleExport = require('./scripts/singleExport');
 const hexColors = require('./scripts/hexColors');
 
-// run();
+run();
 // singleExport('./testFiles/singleExport');
-hexColors( {
-    "enabled": true,
-    "colorsFilePath": "./testFiles/hexColors/colorFile.scss",
-    "checkHTML": false,
-    "checkForRGBA": false,
-    "ignoreDirectory": "./testFiles/hexColors/ignoreThisFolder",
-    "rootPath": "./testFiles/hexColors"
-});
+// hexColors( {
+//     "enabled": true,
+//     "colorsFilePath": "./testFiles/hexColors/colorFile.scss",
+//     "checkHTML": false,
+//     "checkForRGBA": false,
+//     "ignoreDirectory": "./testFiles/hexColors/ignoreThisFolder",
+//     "rootPath": "./testFiles/hexColors"
+// });

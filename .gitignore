@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 toffeenut.code-workspace
 .vscode/**
+.DS_Store
