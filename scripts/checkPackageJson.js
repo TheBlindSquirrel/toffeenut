@@ -25,12 +25,15 @@ function checkDependencies(dependencies, testConfig) {
             const packageName = packages[i];
             const version = dependencies[packageName];
             const match = regex.test(version);
-            if(match) {
-                if (testConfig.allowGithub && !version.startsWith('git')) {
-                    msgs.push(`Package ${packageName} : ${version} is not pinned`);
+            if(version.startsWith('git')) {
+                if (testConfig.allowGithub) {
+                    continue;
                 } else {
-                    msgs.push(`Package ${packageName} : ${version} is not pinned`);
+                    msgs.push(`Package ${packageName} : is set to a git URL and git is not allowed.`);
                 }
+            }
+            if(match) {
+                msgs.push(`Package ${packageName} : ${version} is not pinned`);
             }
         }
     }
