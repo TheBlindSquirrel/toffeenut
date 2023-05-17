@@ -27,7 +27,8 @@ const run = function() {
         errorMsg.forEach(msg => {
             console.error(msg.red);
         });
-        console.error(`Total Errors Found: ${errorMsg.length}`);
+        console.error("\r");
+        console.error(`Total Errors Found: ${errorMsg.length}`.red);
         exit -1;
     } else {
         console.info('All Tests Passed'.green);
