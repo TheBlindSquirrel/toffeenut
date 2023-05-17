@@ -8,7 +8,7 @@ const hexColors = require('./hexColors');
 const run = function() {
     console.info('====== running toffeenut ==========');
     var errorMsg = [];
-    const exitCode = 0;
+    var exitCode = 0;
     try {
         const file = fs.readFileSync('./toffeenut.config.json', 'utf8');
         const config = JSON.parse(file);
