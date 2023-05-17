@@ -1,6 +1,6 @@
 const fs = require('fs');
 const colors = require('colors');
-const { exit, exitCode } = require('process');
+const { exit } = require('process');
 const checkPackageJson = require('./checkPackageJson');
 const singleExport = require('./singleExport');
 const hexColors = require('./hexColors');
@@ -29,7 +29,7 @@ const run = function() {
         }
     } catch(_) {
         errorMsg.push('Error loading toffeenut config file'.red);
-        exitCode = -1;
+        process.exit(-1);
     }
     if (errorMsg.length > 0) {
         errorMsg.forEach(msg => {
@@ -37,12 +37,10 @@ const run = function() {
         });
         console.error("\r");
         console.error(`Total Errors Found: ${errorMsg.length}`.red);
-        exitCode = -1;
-        exit;
+        process.exit(-1);
     } else {
         console.info('All Tests Passed'.green);
-        exitCode = 0;
-        exit;
+        process.exit();
     }
 }
 
