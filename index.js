@@ -5,7 +5,7 @@ const singleExport = require('./scripts/singleExport');
 const hexColors = require('./scripts/hexColors');
 
 // run();
-checkPackageJson({
+const errorMsg = checkPackageJson({
     "enabled": false,
     "allowGithub": true,
     "requireGitCommit": false
@@ -19,3 +19,7 @@ checkPackageJson({
 //     "ignoreDirectory": "./testFiles/hexColors/ignoreThisFolder",
 //     "rootPath": "./testFiles/hexColors"
 // });
+
+errorMsg.forEach(msg => {
+    console.error(msg.red);
+});

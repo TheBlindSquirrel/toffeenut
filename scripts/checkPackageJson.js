@@ -30,6 +30,7 @@ function checkDependencies(dependencies, testConfig) {
                     continue;
                 } else {
                     msgs.push(`Package ${packageName} : is set to a git URL and git is not allowed.`);
+                    continue;
                 }
             }
             if(match) {
