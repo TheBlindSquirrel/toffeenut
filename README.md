@@ -36,7 +36,12 @@ This test goes through the package.json file (assumed to be at the same level as
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
 enabled     | true          | If the test should be run | false
-allowGithub | true | If true any packages installed directly from a git server will be allowed | true
+
+**since 0.0.2**
+
+Config Name | Default Value | Description               | Required
+:---------: | :-----------: | :---------:               | :--:
+allowGithub | true | If true any packages installed directly from a git server will be allowed | false
 
 **since 0.0.3**
 Config Name | Default Value | Description               | Required
@@ -86,7 +91,7 @@ Config Name | Default Value | Description               | Required
 enabled     | true          | If the test should be run | false
 colorsFilePath | '' | The path to the file that contains all of the color variables  | true
 checkForRGBA | true | If true this test will also check if rgb/rgba colors are defined anywhere other than the colors file | false
-ignoreDirectory | '' | All files under this directory will be ignored. Set this if you import a theme or 3rd party library that you do not want to be checked. | false
+ignoreFiles | [] | An array of files and directories that should be ignored. Set this if you import a theme or 3rd party library that you do not want to be checked. | false
 rootPath | '' | All the files under this path will be checked. It can be either a theme folder or the root/src folder when you want to check all the scss files & html files. | true
 checkHTML | true |If true all html & htm files will be checked for hex colors and also rgba colors when that test is enabled. | false
 ### **No !Import in styles**

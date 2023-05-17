@@ -10,14 +10,14 @@ function hexColors(config) {
         return ["Hex Colors root path cannot be empty"];
     }
     try{
-        var files = getAllFiles(config.rootPath);
+        var files = getAllFiles(config.rootPath, config.checkHTML);
         var messages = [];
         files = files.filter(x => Path.resolve(x) != Path.resolve(config.colorsFilePath));
-        if (!config.checkHTML) {
-            files = files.filter(x => Path.extname(x) !== '.html' && Path.extname(x) !== '.htm');
-        }
-        if(config.ignoreDirectory) {
-            files = files.filter(x => Path.dirname(Path.resolve(x)) != Path.resolve(config.ignoreDirectory));
+        if (Array.isArray(config.ignoreFiles)){
+            config.ignoreFiles.forEach(path => {
+                files = files.filter(x => Path.dirname(Path.resolve(x)) != Path.resolve(path));
+                files = files.filter(x => Path.dirname(Path.resolve(x)) != Path.dirname(Path.resolve(path)));
+            });
         }
         files.forEach(f => {
             const fileName = Path.basename(f);
@@ -79,7 +79,7 @@ function checkForRGBA(line) {
     return errorMessage;
 }
 
-function getAllFiles(path) {
+function getAllFiles(path, ignoreHtml) {
     let files = []
     fs.readdirSync(path).forEach(File => {
         const absolute = Path.join(path, File);
@@ -89,7 +89,13 @@ function getAllFiles(path) {
             return files;
         }
         else {
-            if (Path.extname(absolute) !== '.ts'){
+            const fileExt = Path.extname(absolute);
+            const ignoreFileExts = ['.ts'];
+            if (ignoreHtml) {
+                ignoreFileExts.push('.html');
+                ignoreFileExts.push('.htm');
+            }
+            if (!ignoreFileExts.includes(fileExt)) {
                 return files.push(absolute);
             }
         }

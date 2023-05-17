@@ -16,7 +16,7 @@ const init = function() {
             \t"enabled": true, \r\n\
             \t"checkHTML" : true, \r\n\
             \t"checkForRGBA": true, \r\n\
-            \t"ignoreDirectory" : \"\", \r\n\
+            \t"ignoreFiles" : [], \r\n\
             \t"colorsFilePath": \"\" \r\n\
         }\r\n \
     }');

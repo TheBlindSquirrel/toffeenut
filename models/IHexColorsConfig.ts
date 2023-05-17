@@ -3,6 +3,6 @@ export interface IHexColorsConfig {
     colorsFilePath: string
     checkHTML: boolean
     checkForRGBA: boolean
-    ignoreDirectory: string
+    ignoreFiles: string[]
     rootPath: string
   }
