@@ -90,7 +90,7 @@ function getAllFiles(path, ignoreHtml) {
         }
         else {
             const fileExt = Path.extname(absolute);
-            const ignoreFileExts = ['.ts', '.eot', '.svg', '.ttf', '.woff'];
+            const ignoreFileExts = ['.ts', '.eot', '.svg', '.ttf', '.woff', '.png'];
             if (ignoreHtml) {
                 ignoreFileExts.push('.html');
                 ignoreFileExts.push('.htm');
