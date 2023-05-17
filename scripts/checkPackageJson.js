@@ -29,7 +29,7 @@ function checkDependencies(dependencies, testConfig) {
                 if (testConfig.allowGithub) {
                     continue;
                 } else {
-                    msgs.push(`Package ${packageName} : is set to a git URL and git is not allowed.`);
+                    msgs.push(`Package ${packageName} is set to a git URL and git is not allowed.`);
                     continue;
                 }
             }

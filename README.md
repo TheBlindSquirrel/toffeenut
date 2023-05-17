@@ -105,4 +105,5 @@ These tests will prevent src/app or require src/app in the import statements.
 
 ### **Duplicate String Test**
 **since TBD**
+
 This test scans the code base for strings of the minimum length that are duplicates of each other. Intention is to find strings that could be extracted into a resource file or duplicate HTTP calls that can be shared.
