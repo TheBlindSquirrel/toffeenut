@@ -41,7 +41,7 @@ allowGithub | true | If true any packages installed directly from a git server w
 **since 0.0.3**
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
-requireGitCommit     | false          | If true all packages installed from git must be pinned to a specific commit. | false
+requireGitCommit     | false          | This test will only run if allowGithub flag is also true. If true all packages installed from git must be pinned to a specific commit. | false
 
 
 ### **Single Export**
