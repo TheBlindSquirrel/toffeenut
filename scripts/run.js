@@ -12,7 +12,7 @@ const run = function() {
         const file = fs.readFileSync('./toffeenut.config.json', 'utf8');
         const config = JSON.parse(file);
         if (config.checkPackageJson && (config.checkPackageJson.enabled || config.checkPackageJson.enabled === undefined)) {
-            errorMsg = errorMsg.concat(checkPackageJson(config));
+            errorMsg = errorMsg.concat(checkPackageJson(config.checkPackageJson));
         }
         if (config.singleExport && (config.singleExport.enabled || config.singleExport.enabled === undefined)) {
             errorMsg = errorMsg.concat(singleExport(config.singleExport.rootPath));
@@ -27,6 +27,7 @@ const run = function() {
         errorMsg.forEach(msg => {
             console.error(msg.red);
         });
+        console.error(`Total Errors Found: ${errorMsg.length}`);
         exit -1;
     } else {
         console.info('All Tests Passed'.green);
