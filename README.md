@@ -36,6 +36,13 @@ This test goes through the package.json file (assumed to be at the same level as
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
 enabled     | true          | If the test should be run | false
+allowGithub | true | If true any packages installed directly from a git server will be allowed | true
+
+**since 0.0.3**
+Config Name | Default Value | Description               | Required
+:---------: | :-----------: | :---------:               | :--:
+requireGitCommit     | false          | If true all packages installed from git must be pinned to a specific commit. | false
+
 
 ### **Single Export**
 **since 0.0.2**

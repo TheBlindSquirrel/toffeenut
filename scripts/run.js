@@ -12,7 +12,7 @@ const run = function() {
         const file = fs.readFileSync('./toffeenut.config.json', 'utf8');
         const config = JSON.parse(file);
         if (config.checkPackageJson && (config.checkPackageJson.enabled || config.checkPackageJson.enabled === undefined)) {
-            errorMsg = errorMsg.concat(checkPackageJson());
+            errorMsg = errorMsg.concat(checkPackageJson(config));
         }
         if (config.singleExport && (config.singleExport.enabled || config.singleExport.enabled === undefined)) {
             errorMsg = errorMsg.concat(singleExport(config.singleExport.rootPath));

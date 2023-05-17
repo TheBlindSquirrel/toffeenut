@@ -1,6 +1,9 @@
+
 {
     "checkPackageJson": {
-        "enabled": false
+        "enabled": false,
+        "allowGithub": true,
+        "requireGitCommit": false
     },
     "singleExport": { 
         "enabled": false,

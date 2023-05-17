@@ -4,7 +4,12 @@ const run = require('./scripts/run');
 const singleExport = require('./scripts/singleExport');
 const hexColors = require('./scripts/hexColors');
 
-run();
+// run();
+checkPackageJson({
+    "enabled": false,
+    "allowGithub": true,
+    "requireGitCommit": false
+});
 // singleExport('./testFiles/singleExport');
 // hexColors( {
 //     "enabled": true,

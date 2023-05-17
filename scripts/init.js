@@ -3,7 +3,9 @@ const fs = require('fs');
 const init = function() {
     fs.writeFileSync('./toffeenut.config.json', '{ \r\n\
        "checkPackageJson": { \r\n\
-        \t"enabled": true \r\n\
+        \t"enabled": true, \r\n\
+        \t"allowGithub": true,\r\n\
+        \t"requireGitCommit": false\r\n\
        \t}, \r\n\
        "singleExport": { \r\n\
         \t"rootPath" : \"\", \r\n\
