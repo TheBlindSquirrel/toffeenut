@@ -25,11 +25,11 @@ const run = function() {
         }
         if (!checkPackageEnabled && !singleExportEnabled && !hexColorsEnabled) {
             console.warn("Toffeenut loaded but not tests were enabled.".yellow);
-            exit;
+            process.exit();
         }
     } catch(_) {
         errorMsg.push('Error loading toffeenut config file'.red);
-        process.exit(-1);
+        process.exit(1);
     }
     if (errorMsg.length > 0) {
         errorMsg.forEach(msg => {
@@ -37,7 +37,7 @@ const run = function() {
         });
         console.error("\r");
         console.error(`Total Errors Found: ${errorMsg.length}`.red);
-        process.exit(-1);
+        process.exit(1);
     } else {
         console.info('All Tests Passed'.green);
         process.exit();
