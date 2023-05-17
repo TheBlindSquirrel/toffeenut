@@ -6,7 +6,7 @@ const singleExport = require('./singleExport');
 const hexColors = require('./hexColors');
 
 const run = function() {
-    console.info('====== running toffeenut ==========', colors.black);
+    console.info('====== running toffeenut =========='.black);
     var errorMsg = [];
     try {
         const file = fs.readFileSync('./toffeenut.config.json', 'utf8');
@@ -25,11 +25,11 @@ const run = function() {
     }
     if (errorMsg.length > 0) {
         errorMsg.forEach(msg => {
-            console.error(msg, colors.red);
+            console.error(msg.red);
         });
         exit -1;
     } else {
-        console.info('All Tests Passed', colors.green);
+        console.info('All Tests Passed'.green);
         exit;
     }
 }
