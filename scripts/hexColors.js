@@ -62,13 +62,15 @@ function validateLine(line, config, fileExt) {
 
 function checkForHexColors(line, fileExt) {
     let errorMessage = '';
-    // original regex
-    //'#([0-9]{0,6}|[a-f]{0,6}){0,6}([0-9|a-f]){0,2};?'
     const split = line.split(':');
-    const regex = new RegExp('#[^\\s+{\\s+]([0-9]|[^abcdef]|[^ABCDEF]){0,6}');
+    const regex = new RegExp('#[^\\s+{\\s+]([0-9]|[^aA-fF]){0,6}');
     if(regex.test(line)) {
         if(fileExt == '.html' || fileExt == '.html') {
             if(line.includes('style') && line.includes('color')) {
+                errorMessage = `${split[0].trim()} has a hex color defined`;
+            }
+        } else if(fileExt == '.scss'){
+            if (line.includes('color')) {
                 errorMessage = `${split[0].trim()} has a hex color defined`;
             }
         } else {

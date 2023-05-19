@@ -23,3 +23,7 @@ const errorMsg = hexColors( {
 errorMsg.forEach(msg => {
     console.error(msg.red);
 });
+
+if (errorMsg.length > 0) {
+    console.error(`Total Errors: ${errorMsg.length}`.red);
+}
