@@ -3,7 +3,7 @@ const fs = require('fs');
 function checkPackageJson(testConfig) {
     let errorMessages = [];
     try {
-        const file = fs.readFileSync('./testfiles/package.json');
+        const file = fs.readFileSync('./package.json');
         const config = JSON.parse(file);
         const dependencies = config.dependencies;
         const errors = checkDependencies(dependencies, testConfig);
