@@ -14,7 +14,7 @@ const hexColors = require('./scripts/hexColors');
 const errorMsg = hexColors( {
     "enabled": true,
     "colorsFilePath": "./testFiles/hexColors/colorFile.scss",
-    "checkHTML": false,
+    "checkHTML": true,
     "checkForRGBA": false,
     "ignoreFiles": ["./testFiles/hexColors/ignoreThisFolder", "./testFiles/hexColors/ignoreThisFile.scss"],
     "rootPath": "./testFiles/hexColors"
