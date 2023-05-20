@@ -37,7 +37,7 @@ Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
 enabled     | true          | If the test should be run | false
 
-**since 0.0.3**
+**since 0.0.2**
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
 allowGithub | true | If true any packages installed directly from a git server will be allowed | false
@@ -45,7 +45,7 @@ requireGitCommit     | false          | This test will only run if allowGithub f
 
 
 ### **Single Export**
-**since 0.0.3**
+**since 0.0.2**
 
 This test goes through every ts file and makes sure each files only has a single export.
 
@@ -77,7 +77,7 @@ treatAsWarning | false | If true this test will only print a warning for each ou
 This test looks to see if interfaces are implemented in any other class
 
 ### **Limit Hex Colors**
-**since 0.0.3**
+**since 0.0.2**
 
 This test checks that colors are defined only in a single file. It uses a regex to check for hex colors and rgba defined colors in scss files.
 
