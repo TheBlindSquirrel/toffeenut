@@ -45,7 +45,7 @@ requireGitCommit     | false          | This test will only run if allowGithub f
 
 
 ### **Single Export**
-**since 0.0.2**
+**since 0.0.3**
 
 This test goes through every ts file and makes sure each files only has a single export.
 
