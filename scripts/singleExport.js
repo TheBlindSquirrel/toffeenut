@@ -27,14 +27,14 @@ function singleExport(config) {
 
 function validateFile(fileData, fileName) {
     let errorMsg = undefined;
-    /**
-     * TODO: create 1 regex for interface and 1 for class.
-     *  if both have a match OR if either have mutliple matches fail the test
-    */
-    const regEx = new RegExp('\\b(?:export)\\b\\s+(?:default)?\\s+(?:interface)?|(?:class)+');
-    const matches = Array.from(regEx.exec(fileData));
-    console.log('');
-    if(matches.length > 1) {
+   const regexArr = [new RegExp('(export\\s+default\\s+interface)', 'g'), new RegExp('(export\\s+default\\s+class)', 'g'), new RegExp('(export\\s+interface)', 'g'), new RegExp('(export\\s+class)', 'g')];
+   let matchCount = 0;
+   regexArr.forEach(r => {
+    if(r.test(fileData)) {
+        matchCount++;
+    }
+   });
+    if(matchCount > 1) {
         errorMsg = `${fileName} has multiple interface or class exports`;
     }
     return errorMsg;
@@ -50,8 +50,7 @@ function getAllFiles(path) {
             return files;
         }
         else {
-            //TODO: ignore all spec.ts files
-            if (Path.extname(absolute) === '.ts'){
+            if (Path.extname(absolute) === '.ts' && !absolute.endsWith('.spec.ts')){
                 return files.push(absolute);
             }
         }
