@@ -6,32 +6,43 @@ const singleExport = require('./singleExport');
 const hexColors = require('./hexColors');
 
 const run = function() {
-    console.info('====== running toffeenut ==========', colors.black);
+    console.info('====== running toffeenut ==========');
     var errorMsg = [];
+    var exitCode = 0;
     try {
         const file = fs.readFileSync('./toffeenut.config.json', 'utf8');
         const config = JSON.parse(file);
-        if (config.checkPackageJson && (config.checkPackageJson.enabled || config.checkPackageJson.enabled === undefined)) {
-            errorMsg = errorMsg.concat(checkPackageJson());
+        const checkPackageEnabled = config.checkPackageJson && (config.checkPackageJson.enabled || config.checkPackageJson.enabled === undefined);
+        const singleExportEnabled = config.singleExport && (config.singleExport.enabled || config.singleExport.enabled === undefined);
+        const hexColorsEnabled = config.hexColors && (config.hexColors.enabled || config.hexColors.enabled === undefined);
+        if (checkPackageEnabled) {
+            errorMsg = errorMsg.concat(checkPackageJson(config.checkPackageJson));
         }
-        if (config.singleExport && (config.singleExport.enabled || config.singleExport.enabled === undefined)) {
-            errorMsg = errorMsg.concat(singleExport(config.singleExport.rootPath));
+        if (singleExportEnabled) {
+            errorMsg = errorMsg.concat(singleExport(config.singleExport));
         }
-        if(config.hexColors && (config.hexColors.enabled)) {
+        if (hexColorsEnabled) {
             errorMsg = errorMsg.concat(hexColors(config.hexColors));
         }
+        if (!checkPackageEnabled && !singleExportEnabled && !hexColorsEnabled) {
+            console.warn("Toffeenut loaded but not tests were enabled.".yellow);
+        }
     } catch(_) {
-        errorMsg.push('Error loading toffeenut config file');
+        errorMsg.push('Error loading toffeenut config file'.red);
     }
     if (errorMsg.length > 0) {
         errorMsg.forEach(msg => {
-            console.error(msg, colors.red);
+            console.error(msg.red);
         });
-        exit -1;
+        console.error("\r");
+        console.error(`Total Errors Found: ${errorMsg.length}`.red);
+        exitCode = 1;
     } else {
-        console.info('All Tests Passed', colors.green);
-        exit;
+        console.info('All Tests Passed'.green);
     }
+
+    console.info('====== toffeenut complete ==========');
+    process.exit(exitCode);
 }
 
 module.exports = run;

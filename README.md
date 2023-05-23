@@ -1,12 +1,12 @@
 # Toffeenut
 
 ## Design Psychology
-Toffeenut is intended to be a small library of fitness functions. It is not intended to be large framework, like Jasmine, that allows you create your tests. Toffeenut instead contains a set of tests that you run against your code base.
+Toffeenut is intended to be a library of fitness functions. It is not intended to be framework, like Jasmine, that allows you create your tests. Toffeenut instead contains a set of predefined tests that you run against your code base. Each test can be enabled or disabled to suite your preferences and the coding standards of your team. Depending on how many tests are have enabled and the size of your code base, it is not recommended to run Toffeenut on every check-in. Instead the recommendation is to run the suite as part of your MR/PR process.
 
 ## Installation
 Toffeenut is available as an npm package. To install simply enter
     
-    npm i toffeenut
+    npm i @theblindsquirrel/toffeenut
 
 ## Setup
 After installing toffeenut you'll need to run init once. Make sure you run init at the same level as package.json and any other configs you have in your project (ie eslist.json, ionic.config.json, tsconfig.config.json).
@@ -36,6 +36,13 @@ This test goes through the package.json file (assumed to be at the same level as
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
 enabled     | true          | If the test should be run | false
+
+**since 0.0.2**
+Config Name | Default Value | Description               | Required
+:---------: | :-----------: | :---------:               | :--:
+allowGithub | true | If true any packages installed directly from a git server will be allowed | false
+requireGitCommit     | false          | This test will only run if allowGithub flag is also true. If true all packages installed from git must be pinned to a specific commit. | false
+
 
 ### **Single Export**
 **since 0.0.2**
@@ -78,10 +85,11 @@ Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
 enabled     | true          | If the test should be run | false
 colorsFilePath | '' | The path to the file that contains all of the color variables  | true
-checkForRGBA | false | If true this test will also check if rgb/rgba colors are defined anywhere other than the colors file | false
-ignoreDirectory | '' | All files under this directory will be ignored. Set this if you import a theme or 3rd party library that you do not want to be checked. | false
-rootPath | '' | All the files under this path will be checked. It can be either a theme folder (when checkHTML is false) or the root/src folder when you want to check all the scss files & html files. | true
-<!-- checkHTML | false | If true this test also check html files for hex colors. | false -->
+checkForRGBA | true | If true this test will also check if rgb/rgba colors are defined anywhere other than the colors file | false
+ignoreFiles | [] | An array of files and directories that should be ignored. Set this if you import a theme or 3rd party library that you do not want to be checked. | false
+rootPath | '' | All the files under this path will be checked. It can be either a theme folder or the root/src folder when you want to check all the scss files & html files. | true
+checkHTML | true |If true all html & htm files will be checked for hex colors and also rgba colors when that test is enabled. | false
+
 ### **No !Import in styles**
 **since TBD**
 
@@ -95,3 +103,13 @@ ignoreFilePath | '' | All files under this path will be ignored. Set this if you
 **since TBD**
 
 These tests will prevent src/app or require src/app in the import statements.
+
+### **Duplicate String Test**
+**since TBD**
+
+This test scans the code base for strings of the minimum length that are duplicates of each other. Intention is to find strings that could be extracted into a resource file or duplicate HTTP calls that can be shared.
+
+### **Disallow Style in HTML**
+**since TDB**
+
+This test is to prevent the style tag from being used in any html/htm file.
