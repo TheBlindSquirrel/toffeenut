@@ -117,3 +117,9 @@ This test scans the code base for strings of the minimum length that are duplica
 **since TDB**
 
 This test is to prevent the style tag from being used in any html/htm file.
+
+
+### **Treat Errors as Warnings**
+**since TDB**
+
+This is a global setting that if true the build will not fail due to failing toffeenut tests.
