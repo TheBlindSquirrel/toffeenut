@@ -6,7 +6,7 @@ Toffeenut is intended to be a library of fitness functions. It is not intended t
 ## Installation
 Toffeenut is available as an npm package. To install simply enter
     
-    npm i toffeenut
+    npm i @theblindsquirrel/toffeenut
 
 ## Setup
 After installing toffeenut you'll need to run init once. Make sure you run init at the same level as package.json and any other configs you have in your project (ie eslist.json, ionic.config.json, tsconfig.config.json).

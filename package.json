@@ -1,5 +1,5 @@
 {
-  "name": "toffeenut",
+  "name": "@theblindsquirrel/toffeenut",
   "version": "0.0.2",
   "description": "A library of fitness functions",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/swernimo/toffeenut.git"
+    "url": "git+https://github.com/TheBlindSquirrel/toffeenut.git"
   },
   "keywords": [
     "toffeenut",
@@ -19,9 +19,9 @@
   "author": "Sean Wernimont",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/swernimo/toffeenut/issues"
+    "url": "https://github.com/TheBlindSquirrel/toffeenut/issues"
   },
-  "homepage": "https://github.com/swernimo/toffeenut#readme",
+  "homepage": "https://github.com/TheBlindSquirrel/toffeenut#readme",
   "dependencies": {
     "colors": "1.4.0",
     "minimist": "1.2.5"
