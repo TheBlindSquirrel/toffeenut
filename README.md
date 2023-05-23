@@ -41,6 +41,10 @@ enabled     | true          | If the test should be run | false
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
 allowGithub | true | If true any packages installed directly from a git server will be allowed | false
+
+**since 0.0.3**
+Config Name | Default Value | Description               | Required
+:---------: | :-----------: | :---------:               | :--:
 requireGitCommit     | false          | This test will only run if allowGithub flag is also true. If true all packages installed from git must be pinned to a specific commit. | false
 
 
