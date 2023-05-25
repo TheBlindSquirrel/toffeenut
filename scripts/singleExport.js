@@ -1,17 +1,26 @@
 const fs = require('fs');
 const Path = require("path");
 
-function singleExport(config) {
+const singleExport = {
+    run,
+    validateFile,
+    getAllFiles
+}
+
+function run(config) {
+    if(config.rootPath) {
+        config.rootPath = config.rootPath.trim();
+    }
     if (!config.rootPath) {
         return ["Single Export Path cannot be empty"];
     }
     try{
         const errorMessages = [];
-        const files = getAllFiles(config.rootPath);
+        const files = this.getAllFiles(config.rootPath);
         files.forEach(file => {
             const fileName = Path.basename(file);
             const fileData = fs.readFileSync(file, 'UTF-8');
-            const msg = validateFile(fileData, fileName);
+            const msg = this.validateFile(fileData, fileName);
             if(msg) {
                 errorMessages.push(msg);
             }

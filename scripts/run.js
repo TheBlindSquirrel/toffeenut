@@ -19,7 +19,7 @@ const run = function() {
             errorMsg = errorMsg.concat(checkPackageJson(config.checkPackageJson));
         }
         if (singleExportEnabled) {
-            errorMsg = errorMsg.concat(singleExport(config.singleExport));
+            errorMsg = errorMsg.concat(singleExport.run(config.singleExport));
         }
         if (hexColorsEnabled) {
             errorMsg = errorMsg.concat(hexColors(config.hexColors));

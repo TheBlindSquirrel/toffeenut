@@ -10,7 +10,7 @@ const hexColors = require('./scripts/hexColors');
 //     "allowGithub": true,
 //     "requireGitCommit": false
 // });
-const errorMsg = singleExport({
+const errorMsg = singleExport.run({
     'enabled': true,
     'rootPath': './testFiles/singleExport'
 });
