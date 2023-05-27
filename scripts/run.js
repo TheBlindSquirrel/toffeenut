@@ -1,6 +1,5 @@
 const fs = require('fs');
 const colors = require('colors');
-const { exit } = require('process');
 const checkPackageJson = require('./checkPackageJson');
 const singleExport = require('./singleExport');
 const hexColors = require('./hexColors');
@@ -22,7 +21,7 @@ const run = function() {
             errorMsg = errorMsg.concat(singleExport.run(config.singleExport));
         }
         if (hexColorsEnabled) {
-            errorMsg = errorMsg.concat(hexColors(config.hexColors));
+            errorMsg = errorMsg.concat(hexColors.run(config.hexColors));
         }
         if (!checkPackageEnabled && !singleExportEnabled && !hexColorsEnabled) {
             console.warn("Toffeenut loaded but not tests were enabled.".yellow);

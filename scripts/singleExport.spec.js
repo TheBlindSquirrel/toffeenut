@@ -8,7 +8,7 @@ const config = {
 describe('single export', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-    })
+    });
     
     describe('run', () => {
         describe('without root path', () => {
