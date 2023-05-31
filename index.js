@@ -8,7 +8,8 @@ const hexColors = require('./scripts/hexColors');
 const errorMsg = checkPackageJson.run({
     "enabled": false,
     "allowGithub": true,
-    "requireGitCommit": false
+    "requireGitCommit": false,
+    "packagePath": "./testFiles/package.json"
 });
 // const errorMsg = singleExport.run({
 //     'enabled': true,

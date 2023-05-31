@@ -1,5 +1,6 @@
 export interface ICheckPackageJsonConfig {
     enabled: boolean
     allowGithub: boolean
-    requireGitCommit: boolean
+    requireGitCommit: boolean,
+    packagePath: string
   }

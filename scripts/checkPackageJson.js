@@ -7,8 +7,13 @@ const checkPackageJson = {
 
 function run(testConfig) {
     let errorMessages = [];
+    testConfig.packagePath = testConfig.packagePath ?? '';
+    testConfig.packagePath = testConfig.packagePath.trim();
+    if (!testConfig.packagePath) {
+        return ["Package Path is required"]
+    }
     try {
-        const file = fs.readFileSync('./package.json');
+        const file = fs.readFileSync(testConfig.packagePath);
         const config = JSON.parse(file);
         const dependencies = config.dependencies;
         const errors = this.checkDependencies(dependencies, testConfig);

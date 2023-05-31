@@ -1,4 +1,5 @@
 const checkPackageJson = require('./checkPackageJson');
+const fs = require('fs');
 
 let config = {
     enabled: true,
@@ -13,6 +14,7 @@ describe('check package JSON', () => {
             enabled: true,
             allowGithub: true,
             requireGitCommit: true,
+            packagePath: './testFiles/package.json'
         };
     });
 
@@ -33,6 +35,49 @@ describe('check package JSON', () => {
             jest.spyOn(checkPackageJson, 'checkDependencies').mockReturnValueOnce([errors]);
             const actual = checkPackageJson.run(config);
             expect(actual).toContain(errors);
+        });
+
+        test('should return error when package path is missing', () => {
+            delete config.packagePath;
+            const actual = checkPackageJson.run(config);
+            expect(actual.length).toBe(1);
+            expect(actual).toStrictEqual(['Package Path is required']);
+        });
+
+        test('should return error when package path is empty string', () => {
+            config.packagePath = '';
+            const actual = checkPackageJson.run(config);
+            expect(actual.length).toBe(1);
+            expect(actual).toStrictEqual(['Package Path is required']);
+        });
+
+        test('should return error when package path is null', () => {
+            config.packagePath = null;
+            const actual = checkPackageJson.run(config);
+            expect(actual.length).toBe(1);
+            expect(actual).toStrictEqual(['Package Path is required']);
+        });
+
+        test('should return error when package path is undefined', () => {
+            config.packagePath = undefined;
+            const actual = checkPackageJson.run(config);
+            expect(actual.length).toBe(1);
+            expect(actual).toStrictEqual(['Package Path is required']);
+        });
+
+        test('should return error when package path is only white space', () => {
+            config.packagePath = '     ';
+            const actual = checkPackageJson.run(config);
+            expect(actual.length).toBe(1);
+            expect(actual).toStrictEqual(['Package Path is required']);
+        });
+
+        test('should call fs file sync with supplied package path', () => {
+            const expectedPath = './some/other/path';
+            config.packagePath = expectedPath;
+            jest.spyOn(fs, 'readFileSync');
+            checkPackageJson.run(config);
+            expect(fs.readFileSync).toHaveBeenCalledWith(expectedPath);
         });
     });
 

@@ -3,7 +3,8 @@
     "checkPackageJson": {
         "enabled": false,
         "allowGithub": true,
-        "requireGitCommit": false
+        "requireGitCommit": false,
+        "packagePath": ""
     },
     "singleExport": { 
         "enabled": false,

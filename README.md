@@ -46,6 +46,7 @@ allowGithub | true | If true any packages installed directly from a git server w
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
 requireGitCommit     | false          | This test will only run if allowGithub flag is also true. If true all packages installed from git must be pinned to a specific commit. | false
+packagePath | ./package.json | The location of the package.json file to test. | true
 
 
 ### **Single Export**
