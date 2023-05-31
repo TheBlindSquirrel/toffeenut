@@ -8,7 +8,7 @@ const checkPackageJson = {
 function run(testConfig) {
     let errorMessages = [];
     try {
-        const file = fs.readFileSync('./testFiles/package.json');
+        const file = fs.readFileSync('./package.json');
         const config = JSON.parse(file);
         const dependencies = config.dependencies;
         const errors = this.checkDependencies(dependencies, testConfig);
