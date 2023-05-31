@@ -18,6 +18,7 @@ describe('check package JSON', () => {
 
     describe('run', () => {
         beforeEach(() => {
+            jest.clearAllMocks();
             jest.restoreAllMocks();
         });
 
@@ -25,15 +26,137 @@ describe('check package JSON', () => {
             jest.spyOn(checkPackageJson, 'checkDependencies');
             checkPackageJson.run(config);
             expect(checkPackageJson.checkDependencies).toHaveBeenCalledTimes(2);
-            jest.restoreAllMocks();
         });
 
         test('should return errors', () => {
-            const errors = 'test error';
-            jest.mock('./checkPackageJson', () => jest.fn());
-            checkPackageJson.checkDependencies = jest.fn(() => { return [errors] })
+            const errors = 'check dependencies mock error';
+            jest.spyOn(checkPackageJson, 'checkDependencies').mockReturnValueOnce([errors]);
             const actual = checkPackageJson.run(config);
             expect(actual).toContain(errors);
+        });
+    });
+
+    describe('check dependencies', () => {
+        test('should return error on ~', () => {
+            const dependencies = {       
+                '@angular/common':'~10.0.0',
+            };
+
+            const actual = checkPackageJson.checkDependencies(dependencies, config);
+
+            expect(actual.length).toBe(1);
+            expect(actual).toContain("Package @angular/common : ~10.0.0 is not pinned");
+        });
+
+        test('should return error on -', () => {
+            const dependencies = {       
+                '@angular/common':'-10.0.0',
+            };
+
+            const actual = checkPackageJson.checkDependencies(dependencies, config);
+
+            expect(actual.length).toBe(1);
+            expect(actual).toContain("Package @angular/common : -10.0.0 is not pinned");
+        });
+
+        test('should return error on ^', () => {
+            const dependencies = {       
+                '@angular/common':'^10.0.0',
+            };
+
+            const actual = checkPackageJson.checkDependencies(dependencies, config);
+
+            expect(actual.length).toBe(1);
+            expect(actual).toContain("Package @angular/common : ^10.0.0 is not pinned");
+        });
+
+        test('should return error on >', () => {
+            const dependencies = {       
+                '@angular/common':'>10.0.0',
+            };
+
+            const actual = checkPackageJson.checkDependencies(dependencies, config);
+
+            expect(actual.length).toBe(1);
+            expect(actual).toContain("Package @angular/common : >10.0.0 is not pinned");
+        });
+
+        test('should return error on <', () => {
+            const dependencies = {       
+                '@angular/common':'<10.0.0',
+            };
+
+            const actual = checkPackageJson.checkDependencies(dependencies, config);
+
+            expect(actual.length).toBe(1);
+            expect(actual).toContain("Package @angular/common : <10.0.0 is not pinned");
+        });
+
+        test('should return error on |', () => {
+            const dependencies = {       
+                '@angular/common':'|10.0.0',
+            };
+
+            const actual = checkPackageJson.checkDependencies(dependencies, config);
+
+            expect(actual.length).toBe(1);
+            expect(actual).toContain("Package @angular/common : |10.0.0 is not pinned");
+        });
+
+        test('should not error on =', () => {
+            const dependencies = {       
+                '@angular/common':'=10.0.0',
+            };
+
+            const actual = checkPackageJson.checkDependencies(dependencies, config);
+
+            expect(actual.length).toBe(0);
+        });
+        
+        test('should return error on github package when git is disabled', () => {
+            const dependencies = {       
+                'toffeenut':'github:swernimo/toffeenut',
+            };
+
+            config.allowGithub = false;
+            const actual = checkPackageJson.checkDependencies(dependencies, config);
+
+            expect(actual.length).toBe(1);
+            expect(actual).toContain("Package toffeenut is set to a git URL and git is not allowed.");
+        });
+
+        test('should not error on git package when git is enabled', () => {
+            const dependencies = {       
+                'toffeenut':'git+https://github.com/visionmedia/express.git',
+            };
+
+            config.allowGithub = false;
+            const actual = checkPackageJson.checkDependencies(dependencies, config);
+
+            expect(actual.length).toBe(1);
+            expect(actual).toContain("Package toffeenut is set to a git URL and git is not allowed.");
+        });
+
+        test('should not error on github package when git is enabled', () => {
+            const dependencies = {       
+                'toffeenut':'github:swernimo/toffeenut',
+            };
+
+            config.allowGithub = true;
+            const actual = checkPackageJson.checkDependencies(dependencies, config);
+
+            expect(actual.length).toBe(0);
+        });
+
+        test('should return error on git package when git is disabled', () => {
+            const dependencies = {       
+                'toffeenut':'git+https://github.com/visionmedia/express.git',
+            };
+
+            config.allowGithub = true;
+            const actual = checkPackageJson.checkDependencies(dependencies, config);
+
+            expect(actual.length).toBe(0);
         });
     });
 });
