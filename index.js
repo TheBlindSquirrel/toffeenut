@@ -5,23 +5,23 @@ const singleExport = require('./scripts/singleExport');
 const hexColors = require('./scripts/hexColors');
 
 // run();
-// const errorMsg = checkPackageJson({
-//     "enabled": false,
-//     "allowGithub": true,
-//     "requireGitCommit": false
-// });
+const errorMsg = checkPackageJson.run({
+    "enabled": false,
+    "allowGithub": true,
+    "requireGitCommit": false
+});
 // const errorMsg = singleExport.run({
 //     'enabled': true,
 //     'rootPath': './testFiles/singleExport'
 // });
-const errorMsg = hexColors.run( {
-    "enabled": true,
-    "colorsFilePath": "./testFiles/hexColors/colorFile.scss",
-    "checkHTML": true,
-    "checkForRGBA": true,
-    "ignoreFiles": ["./testFiles/hexColors/ignoreThisFolder", "./testFiles/hexColors/ignoreThisFile.scss"],
-    "rootPath": "./testFiles/hexColors"
-});
+// const errorMsg = hexColors.run( {
+//     "enabled": true,
+//     "colorsFilePath": "./testFiles/hexColors/colorFile.scss",
+//     "checkHTML": true,
+//     "checkForRGBA": true,
+//     "ignoreFiles": ["./testFiles/hexColors/ignoreThisFolder", "./testFiles/hexColors/ignoreThisFile.scss"],
+//     "rootPath": "./testFiles/hexColors"
+// });
 
 errorMsg.forEach(msg => {
     console.error(msg.red);

@@ -1,5 +1,4 @@
 const fs = require('fs');
-const colors = require('colors');
 const checkPackageJson = require('./checkPackageJson');
 const singleExport = require('./singleExport');
 const hexColors = require('./hexColors');
@@ -15,7 +14,7 @@ const run = function() {
         const singleExportEnabled = config.singleExport && (config.singleExport.enabled || config.singleExport.enabled === undefined);
         const hexColorsEnabled = config.hexColors && (config.hexColors.enabled || config.hexColors.enabled === undefined);
         if (checkPackageEnabled) {
-            errorMsg = errorMsg.concat(checkPackageJson(config.checkPackageJson));
+            errorMsg = errorMsg.concat(checkPackageJson.run(config.checkPackageJson));
         }
         if (singleExportEnabled) {
             errorMsg = errorMsg.concat(singleExport.run(config.singleExport));

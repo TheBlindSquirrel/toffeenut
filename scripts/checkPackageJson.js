@@ -1,14 +1,19 @@
 const fs = require('fs');
 
-function checkPackageJson(testConfig) {
+const checkPackageJson = {
+    run,
+    checkDependencies
+}
+
+function run(testConfig) {
     let errorMessages = [];
     try {
         const file = fs.readFileSync('./package.json');
         const config = JSON.parse(file);
         const dependencies = config.dependencies;
-        const errors = checkDependencies(dependencies, testConfig);
+        const errors = this.checkDependencies(dependencies, testConfig);
         const devDependencies = config.devDependencies;
-        const devErrors = checkDependencies(devDependencies, testConfig);
+        const devErrors = this.checkDependencies(devDependencies, testConfig);
         errorMessages = errorMessages.concat(errors, devErrors);
     } catch (error) {
         errorMessages.push('Error loading package.json');
