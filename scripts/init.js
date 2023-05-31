@@ -6,7 +6,7 @@ const init = function() {
         \t"enabled": true, \r\n\
         \t"allowGithub": true,\r\n\
         \t"requireGitCommit": false,\r\n\
-        \t"packagePath": ""\r\n\
+        \t"packagePath": "./package.json"\r\n\
        \t}, \r\n\
        "singleExport": { \r\n\
         \t"rootPath" : \"\", \r\n\
