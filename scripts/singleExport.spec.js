@@ -99,4 +99,8 @@ describe('single export', () => {
             expect(msg).toBe(undefined);
         });
     });
+
+    test('test should fail', () => {
+        expect(true).toBeFalsy();
+    });
 });
