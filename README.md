@@ -40,8 +40,13 @@ enabled     | true          | If the test should be run | false
 **since 0.0.2**
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
-allowGithub | true | If true any packages installed directly from a git server will be allowed | false
+allowGithub | true | If true any packages installed directly from a git server will be allowed. If false any git links will be marked as invalid and the test will fail. | false
+
+**since 0.0.3**
+Config Name | Default Value | Description               | Required
+:---------: | :-----------: | :---------:               | :--:
 requireGitCommit     | false          | This test will only run if allowGithub flag is also true. If true all packages installed from git must be pinned to a specific commit. | false
+packagePath | ./package.json | The location of the package.json file to test. | true
 
 
 ### **Single Export**
@@ -113,3 +118,14 @@ This test scans the code base for strings of the minimum length that are duplica
 **since TDB**
 
 This test is to prevent the style tag from being used in any html/htm file.
+
+
+### **Treat Errors as Warnings**
+**since TDB**
+
+This is a global setting that if true the build will not fail due to failing toffeenut tests.
+
+### **Duplicate Name**
+**since TDB**
+
+Checks if there are multiple files with the same name in different folders.
