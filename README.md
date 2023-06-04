@@ -1,5 +1,5 @@
 # Toffeenut
-
+![toffeenut](https://github.com/TheBlindSquirrel/toffeenut/actions/workflows/ci.yml/badge.svg)
 ## Design Psychology
 Toffeenut is intended to be a library of fitness functions. It is not intended to be framework, like Jasmine, that allows you create your tests. Toffeenut instead contains a set of predefined tests that you run against your code base. Each test can be enabled or disabled to suite your preferences and the coding standards of your team. Depending on how many tests are have enabled and the size of your code base, it is not recommended to run Toffeenut on every check-in. Instead the recommendation is to run the suite as part of your MR/PR process.
 
