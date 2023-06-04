@@ -3,7 +3,12 @@ const checkPackageJson = require('./checkPackageJson');
 const singleExport = require('./singleExport');
 const hexColors = require('./hexColors');
 
-const run = function() {
+const run = {
+    go, 
+    exit
+}
+
+function go() {
     console.info('====== running toffeenut ==========');
     var errorMsg = [];
     var exitCode = 0;
@@ -24,6 +29,7 @@ const run = function() {
         }
         if (!checkPackageEnabled && !singleExportEnabled && !hexColorsEnabled) {
             console.warn("Toffeenut loaded but not tests were enabled.".yellow);
+            this.exit(exitCode);
         }
     } catch(_) {
         errorMsg.push('Error loading toffeenut config file'.red);
@@ -38,9 +44,13 @@ const run = function() {
     } else {
         console.info('All Tests Passed'.green);
     }
+    this.exit(exitCode);
+}
 
+function exit(code) {
+    code = code ?? 0;
     console.info('====== toffeenut complete ==========');
-    process.exit(exitCode);
+    process.exit(code);
 }
 
 module.exports = run;

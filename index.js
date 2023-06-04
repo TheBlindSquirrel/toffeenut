@@ -4,13 +4,13 @@ const run = require('./scripts/run');
 const singleExport = require('./scripts/singleExport');
 const hexColors = require('./scripts/hexColors');
 
-// run();
-const errorMsg = checkPackageJson.run({
-    "enabled": false,
-    "allowGithub": true,
-    "requireGitCommit": false,
-    "packagePath": "./testFiles/package.json"
-});
+run.go()
+// const errorMsg = checkPackageJson.run({
+//     "enabled": false,
+//     "allowGithub": true,
+//     "requireGitCommit": false,
+//     "packagePath": "./testFiles/package.json"
+// });
 // const errorMsg = singleExport.run({
 //     'enabled': true,
 //     'rootPath': './testFiles/singleExport'
