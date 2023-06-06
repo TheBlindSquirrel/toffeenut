@@ -1,11 +1,7 @@
+name: PR
 
-name: develop
-
-on:
-  push:
-    branches:
-      - '*'
-      - '!release'
+on: 
+  pull_request:
 
 jobs:
   build:
@@ -23,3 +19,8 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - name: Comment with Test Coverage
+      uses: dkershner6/jest-coverage-commenter-action@v1
+      with:
+        github_token: "${{ secrets.GITHUB_TOKEN }}"
+        test_command: "npx jest --coverage"
