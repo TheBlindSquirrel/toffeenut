@@ -23,5 +23,3 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-    - name: Coverage
-      uses: abolkog/jest-pr-code-coverage@v1.1.1
