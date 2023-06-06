@@ -37,7 +37,16 @@ function checkDependencies(dependencies, testConfig) {
             const match = regex.test(version);
             if(version.startsWith('git')) {
                 if (testConfig.allowGithub) {
-                    continue;
+                    if(testConfig.requireGitCommit) {
+                        const gitCommitRegex = new RegExp('#\\w+$');
+                        const commitMatch = gitCommitRegex.test(version);
+                        if (commitMatch) {
+                            continue;
+                        }
+                        msgs.push(`Package ${packageName} is not set to a git commit.`);
+                    } else {
+                        continue;
+                    }
                 } else {
                     msgs.push(`Package ${packageName} is set to a git URL and git is not allowed.`);
                     continue;
