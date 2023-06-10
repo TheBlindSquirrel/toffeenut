@@ -1,9 +1,11 @@
-const singleExport = require('./singleExport');
+import SingleExport from "../src/singleExport";
+import { ISingleExportConfig } from "../models/ISingleExportConfig";
 
-const config = {
+let config: ISingleExportConfig = {
     rootPath: '',
     enabled: true
 }
+const singleExport = new SingleExport();
 
 describe('single export', () => {
     beforeEach(() => {
@@ -13,12 +15,14 @@ describe('single export', () => {
     describe('run', () => {
         describe('without root path', () => {
             test('should return error when root path is null', () => {
+                //@ts-ignore
                 config.rootPath = null;
                 const result = singleExport.run(config);
                 expect(result).toContain('Single Export Path cannot be empty');
             });
     
             test('should return error when root path is undefined', () => {
+                //@ts-ignore
                 config.rootPath = null;
                 const result = singleExport.run(config);
                 expect(result).toContain('Single Export Path cannot be empty');

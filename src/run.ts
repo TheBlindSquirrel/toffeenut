@@ -1,8 +1,8 @@
-const singleExport = require('../scripts/singleExport');
-const hexColors = require('../scripts/hexColors');
 import fs from 'fs';
 import CheckPackageJson from './checkPackageJson';
 import { Color } from 'colors';
+import SingleExport from './singleExport';
+import HexColors from './hexColors';
 
 export default class Run {
     public go(): void {
@@ -10,6 +10,8 @@ export default class Run {
         let errorMsg: string[] = [];
         let exitCode: number = 0;
         const checkPackage = new CheckPackageJson();
+        const singleExport = new SingleExport();
+        const hexColors = new HexColors();
         try {
             const file = fs.readFileSync('./toffeenut.config.json', 'utf8');
             const config = JSON.parse(file);

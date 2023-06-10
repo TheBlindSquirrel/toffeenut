@@ -10,7 +10,7 @@ describe('check package JSON', () => {
         requireGitCommit: true,
         packagePath: ''
     };
-    
+
     beforeEach(() => {
         jest.clearAllMocks();
         config = {
