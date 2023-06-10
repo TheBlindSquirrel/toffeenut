@@ -116,8 +116,9 @@ describe('run', () => {
     });
 
     describe('hex color tests', () => {
-        //TODO: fix broken test
         test('should run when test is enabled', () => {
+            mockConfig.checkPackageJson.enabled = false;
+            mockConfig.singleExport.enabled = false;
             mockConfig.hexColors.enabled = true;
             jest.spyOn(JSON, 'parse').mockReturnValueOnce(mockConfig);
             jest.spyOn(hexColors, 'run');
