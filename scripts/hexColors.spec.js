@@ -1,16 +1,15 @@
-import HexColors from '../src/hexColors';
-import { IHexColorsConfig } from '../models/IHexColorsConfig';
+const hexColors = require('./hexColors');
+
+let config = {
+    enabled: true,
+    colorsFilePath: './testFiles/hexColors/colorFile.scss',
+    checkHTML: false,
+    checkForRGBA: false,
+    ignoreFiles: ['./testFiles/hexColors/ignoreThisFolder', './testFiles/hexColors/ignoreThisFile.scss'],
+    rootPath: './testFiles/hexColors'
+}
 
 describe('Hex Colors', () => {
-    let config: IHexColorsConfig = {
-        enabled: true,
-        colorsFilePath: './testFiles/hexColors/colorFile.scss',
-        checkHTML: false,
-        checkForRGBA: false,
-        ignoreFiles: ['./testFiles/hexColors/ignoreThisFolder', './testFiles/hexColors/ignoreThisFile.scss'],
-        rootPath: './testFiles/hexColors'
-    };
-    const hexColors = new HexColors();
     beforeEach(() => {
         jest.clearAllMocks();
         config = {
@@ -41,7 +40,6 @@ describe('Hex Colors', () => {
     
             test('should return error when colors file path is undefined', () => {
                 const expected = ['Hex Colors File Path cannot be empty'];
-                //@ts-ignore
                 config.colorsFilePath = undefined;
                 const actual = hexColors.run(config);
                 expect(actual).toStrictEqual(expected);
@@ -49,7 +47,6 @@ describe('Hex Colors', () => {
     
             test('should return error when colors file path is null', () => {
                 const expected = ['Hex Colors File Path cannot be empty'];
-                //@ts-ignore
                 config.colorsFilePath = null;
                 const actual = hexColors.run(config);
                 expect(actual).toStrictEqual(expected);
@@ -80,7 +77,6 @@ describe('Hex Colors', () => {
     
             test('should return error when path is undefined', () => {
                 const expected = ['Hex Colors root path cannot be empty'];
-                //@ts-ignore
                 config.rootPath = undefined;
                 const actual = hexColors.run(config);
                 expect(actual).toStrictEqual(expected);
@@ -88,7 +84,6 @@ describe('Hex Colors', () => {
     
             test('should return error when path is null', () => {
                 const expected = ['Hex Colors root path cannot be empty'];
-                //@ts-ignore
                 config.rootPath = null;
                 const actual = hexColors.run(config);
                 expect(actual).toStrictEqual(expected);

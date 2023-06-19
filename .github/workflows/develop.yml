@@ -4,7 +4,8 @@ name: develop
 on:
   push:
     branches:
-      - 'develop'
+      - '*'
+      - '!release'
 
 jobs:
   build:
@@ -22,6 +23,3 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-    - run: git config user.email 'swernimo@users.noreply.github.com'
-    - run: git config user.name 'Sean Wernimont'
-    - run: npm version prerelease --access public --preid=next

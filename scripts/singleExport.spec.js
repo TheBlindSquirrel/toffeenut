@@ -1,11 +1,9 @@
-import SingleExport from "../src/singleExport";
-import { ISingleExportConfig } from "../models/ISingleExportConfig";
+const singleExport = require('./singleExport');
 
-let config: ISingleExportConfig = {
+const config = {
     rootPath: '',
     enabled: true
 }
-const singleExport = new SingleExport();
 
 describe('single export', () => {
     beforeEach(() => {
@@ -15,14 +13,12 @@ describe('single export', () => {
     describe('run', () => {
         describe('without root path', () => {
             test('should return error when root path is null', () => {
-                //@ts-ignore
                 config.rootPath = null;
                 const result = singleExport.run(config);
                 expect(result).toContain('Single Export Path cannot be empty');
             });
     
             test('should return error when root path is undefined', () => {
-                //@ts-ignore
                 config.rootPath = null;
                 const result = singleExport.run(config);
                 expect(result).toContain('Single Export Path cannot be empty');
@@ -45,7 +41,7 @@ describe('single export', () => {
             config.rootPath = './testFiles';
             jest.spyOn(singleExport, 'getAllFiles');
             singleExport.run(config);
-            expect(singleExport.getAllFiles).toHaveBeenCalled();
+            expect(jest.mocked(singleExport.getAllFiles).mock.calls).toHaveLength(1);
         });
     
         test('should call validate file', () => {
@@ -93,14 +89,14 @@ describe('single export', () => {
             const fileName = 'validClass.ts';
             const msg = singleExport.validateFile('export default class ValidClass {\n    \n}', fileName);
 
-            expect(msg).toBe('');
+            expect(msg).toBe(undefined);
         });
 
         test('single interface should pass', () => {
             const fileName = 'validInterface.ts';
             const msg = singleExport.validateFile('export interface ITestInterface {\n    \n}', fileName);
 
-            expect(msg).toBe('');
+            expect(msg).toBe(undefined);
         });
     });
 });
