@@ -1,4 +1,4 @@
-const hexColors = require('./hexColors');
+const hexColors = require('../scripts/hexColors');
 
 let config = {
     enabled: true,

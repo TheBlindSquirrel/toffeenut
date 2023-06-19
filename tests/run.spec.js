@@ -1,7 +1,7 @@
-const run = require('./run');
-const checkPackageJson = require('./checkPackageJson');
-const singleExport = require('./singleExport');
-const hexColors = require('./hexColors');
+const run = require('../scripts/run');
+const checkPackageJson = require('../scripts/checkPackageJson');
+const singleExport = require('../scripts/singleExport');
+const hexColors = require('../scripts/hexColors');
 
 describe('run', () => {
     let mockConfig = 

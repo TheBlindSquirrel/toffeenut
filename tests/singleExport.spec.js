@@ -1,4 +1,4 @@
-const singleExport = require('./singleExport');
+const singleExport = require('../scripts/singleExport');
 
 const config = {
     rootPath: '',
