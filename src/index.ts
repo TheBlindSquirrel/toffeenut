@@ -6,8 +6,8 @@ import SingleExport from './singleExport';
 const errorMsgs: string[] = [];
 const checkPJ = new CheckPackageJson();
 const hexColors = new HexColors();
-const r = new Run();
 const singleExport = new SingleExport();
+const r = new Run(checkPJ, singleExport, hexColors);
 
 // errorMsgs.concat(checkPJ.run({
 //     "enabled": false,

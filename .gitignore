@@ -351,3 +351,4 @@ MigrationBackup/
 toffeenut.code-workspace
 .vscode/**
 .DS_Store
+dist/**
