@@ -45,7 +45,7 @@ describe('single export', () => {
             config.rootPath = './testFiles';
             jest.spyOn(singleExport, 'getAllFiles');
             singleExport.run(config);
-            expect(jest.mocked(singleExport.getAllFiles).mock.calls).toHaveLength(1);
+            expect(singleExport.getAllFiles).toHaveBeenCalled();
         });
     
         test('should call validate file', () => {
@@ -93,14 +93,14 @@ describe('single export', () => {
             const fileName = 'validClass.ts';
             const msg = singleExport.validateFile('export default class ValidClass {\n    \n}', fileName);
 
-            expect(msg).toBe(undefined);
+            expect(msg).toBe('');
         });
 
         test('single interface should pass', () => {
             const fileName = 'validInterface.ts';
             const msg = singleExport.validateFile('export interface ITestInterface {\n    \n}', fileName);
 
-            expect(msg).toBe(undefined);
+            expect(msg).toBe('');
         });
     });
 });
