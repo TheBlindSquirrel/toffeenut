@@ -1,10 +1,11 @@
-
-name: develop
+name: feature
 
 on:
   push:
     branches:
-      - 'develop'
+      - '*'
+      - '!release'
+      - '!develop'
 
 jobs:
   build:
@@ -22,4 +23,3 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-    - run: npm version prerelease --access public --preid=next

@@ -1,35 +1,40 @@
-const run = require('./run');
-const checkPackageJson = require('./checkPackageJson');
-const singleExport = require('./singleExport');
-const hexColors = require('./hexColors');
+import Run from '../src/run';
+import CheckPackageJson from '../src/checkPackageJson';
+import SingleExport from '../src/singleExport';
+import HexColors from '../src/hexColors';
+import { IToffeenutConfig } from '../models/IToffeenutConfig';
 
 describe('run', () => {
-    let mockConfig = 
+    let mockConfig: IToffeenutConfig = 
     {
         checkPackageJson: {
-            "enabled": true,
-            "allowGithub": false,
-            "requireGitCommit": false,
-            "packagePath": "../mockPackage.json"
+            enabled: true,
+            allowGithub: false,
+            requireGitCommit: false,
+            packagePath: "../mockPackage.json"
         },
         singleExport: { 
-            "enabled": false,
-            "rootPath": ""
+            enabled: false,
+            rootPath: ""
         },
         hexColors: {
-            "enabled": true,
-            "colorsFilePath": "",
-            "checkHTML": false,
-            "checkForRGBA": false,
-            "ignoreFiles": [],
-            "rootPath": ""
+            enabled: true,
+            colorsFilePath: "",
+            checkHTML: false,
+            checkForRGBA: false,
+            ignoreFiles: [],
+            rootPath: ""
         }
     }
+    const checkPackageJson = new CheckPackageJson();
+    const singleExport = new SingleExport();
+    const hexColors = new HexColors();
+    const run = new Run(checkPackageJson, singleExport, hexColors);
 
     beforeEach(() => {
         jest.clearAllMocks();
         jest.restoreAllMocks();
-        jest.spyOn(process, 'exit').mockImplementation(() => {});
+        jest.spyOn(process, 'exit').mockImplementation();
         jest.spyOn(console, 'error').mockImplementation(() => {});
         jest.spyOn(console, 'info').mockImplementation(() => {});
         jest.spyOn(console, 'warn').mockImplementation(() => {});
@@ -74,6 +79,7 @@ describe('run', () => {
         });
 
         test('should not run when config section is missing', () => {
+            //@ts-ignore
             delete mockConfig.checkPackageJson;
             jest.spyOn(JSON, 'parse').mockReturnValueOnce(mockConfig);
             jest.spyOn(checkPackageJson, 'run');
@@ -100,6 +106,7 @@ describe('run', () => {
         });
 
         test('should not run when config section is missing', () => {
+            //@ts-ignore
             delete mockConfig.singleExport;
             jest.spyOn(JSON, 'parse').mockReturnValueOnce(mockConfig);
             jest.spyOn(singleExport, 'run');
@@ -110,6 +117,8 @@ describe('run', () => {
 
     describe('hex color tests', () => {
         test('should run when test is enabled', () => {
+            mockConfig.checkPackageJson.enabled = false;
+            mockConfig.singleExport.enabled = false;
             mockConfig.hexColors.enabled = true;
             jest.spyOn(JSON, 'parse').mockReturnValueOnce(mockConfig);
             jest.spyOn(hexColors, 'run');
@@ -126,6 +135,7 @@ describe('run', () => {
         });
 
         test('should not run when config section is missing', () => {
+            //@ts-ignore
             delete mockConfig.hexColors;
             jest.spyOn(JSON, 'parse').mockReturnValueOnce(mockConfig);
             jest.spyOn(hexColors, 'run');
@@ -174,12 +184,12 @@ describe('run', () => {
         });
 
         test('should print complete message', () => {
-            run.exit();
+            run.exit(0);
             expect(console.info).toHaveBeenCalledWith('====== toffeenut complete ==========');
         });
 
         test('should exit with code 0 when no code is supplied', () => {
-            run.exit();
+            run.exit(0);
             expect(process.exit).toHaveBeenCalledWith(0);
         });
     });
