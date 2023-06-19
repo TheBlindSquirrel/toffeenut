@@ -5,13 +5,21 @@ import SingleExport from './singleExport';
 import HexColors from './hexColors';
 
 export default class Run {
+
+    private _checkPackage: CheckPackageJson;
+    private _singleExport: SingleExport;
+    private _hexColor: HexColors;
+
+    constructor(checkPackage: CheckPackageJson, singleExport: SingleExport, hexColor: HexColors) {
+        this._checkPackage = checkPackage;
+        this._singleExport = singleExport;
+        this._hexColor = hexColor;
+    }
+
     public go(): void {
         console.info('====== running toffeenut ==========');
         let errorMsg: string[] = [];
         let exitCode: number = 0;
-        const checkPackage = new CheckPackageJson();
-        const singleExport = new SingleExport();
-        const hexColors = new HexColors();
         try {
             const file = fs.readFileSync('./toffeenut.config.json', 'utf8');
             const config = JSON.parse(file);
@@ -19,13 +27,13 @@ export default class Run {
             const singleExportEnabled = config.singleExport && (config.singleExport.enabled || config.singleExport.enabled === undefined);
             const hexColorsEnabled = config.hexColors && (config.hexColors.enabled || config.hexColors.enabled === undefined);
             if (checkPackageEnabled) {
-                errorMsg = errorMsg.concat(checkPackage.run(config.checkPackageJson));
+                errorMsg = errorMsg.concat(this._checkPackage.run(config.checkPackageJson));
             }
             if (singleExportEnabled) {
-                errorMsg = errorMsg.concat(singleExport.run(config.singleExport));
+                errorMsg = errorMsg.concat(this._singleExport.run(config.singleExport));
             }
             if (hexColorsEnabled) {
-                errorMsg = errorMsg.concat(hexColors.run(config.hexColors));
+                errorMsg = errorMsg.concat(this._hexColor.run(config.hexColors));
             }
             if (!checkPackageEnabled && !singleExportEnabled && !hexColorsEnabled) {
                 console.warn("Toffeenut loaded but not tests were enabled.".yellow);

@@ -26,10 +26,10 @@ describe('run', () => {
             rootPath: ""
         }
     }
-    const run = new Run();
     const checkPackageJson = new CheckPackageJson();
     const singleExport = new SingleExport();
     const hexColors = new HexColors();
+    const run = new Run(checkPackageJson, singleExport, hexColors);
 
     beforeEach(() => {
         jest.clearAllMocks();
