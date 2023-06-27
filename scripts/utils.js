@@ -7,6 +7,10 @@ const utils = {
 
 function getAllFiles(path, ignoreExtensions) {
     let files = []
+    const alwaysIgnoredFileExt = ['.eot', '.svg', '.ttf', '.woff', '.png'];
+    if(!Array.isArray(ignoreExtensions)) {
+        ignoreExtensions = [];
+    }
     if (fs.existsSync(path)) {
         fs.readdirSync(path).forEach(File => {
             const absolute = Path.join(path, File);
@@ -17,11 +21,7 @@ function getAllFiles(path, ignoreExtensions) {
             }
             else {
                 const extension = Path.extname(absolute);
-                if(Array.isArray(ignoreExtensions)) {
-                    if(!ignoreExtensions.includes(extension)) {
-                        files.push(absolute);
-                    }
-                } else {
+                if(!ignoreExtensions.includes(extension) && !alwaysIgnoredFileExt.includes(extension)) {
                     files.push(absolute);
                 }
             }

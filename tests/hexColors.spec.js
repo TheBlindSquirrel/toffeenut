@@ -1,4 +1,5 @@
 const hexColors = require('../scripts/hexColors');
+const utils = require('../scripts/utils');
 
 let config = {
     enabled: true,
@@ -97,10 +98,29 @@ describe('Hex Colors', () => {
             });
         });
 
-        test('should call get all files', () => {
-            jest.spyOn(hexColors, 'getAllFiles');
-            hexColors.run(config);
-            expect(hexColors.getAllFiles).toHaveBeenCalledWith(config.rootPath, config.checkHTML);
+        describe('get all files', () => {
+            test('should call get all files', () => {
+                jest.spyOn(utils, 'getAllFiles');
+                hexColors.run(config);
+                expect(utils.getAllFiles).toHaveBeenCalled();
+                jest.clearAllMocks();
+            });
+
+            test('when check html is false should ignore html', () => {
+                jest.spyOn(utils, 'getAllFiles');
+                config.checkHTML = false;
+                hexColors.run(config);
+                expect(utils.getAllFiles).toHaveBeenNthCalledWith(1, config.rootPath, ['.ts', '.js', '.html', '.htm']);
+                jest.clearAllMocks();
+            });
+
+            test('when check html is true should not ignore html', () => {
+                jest.spyOn(utils, 'getAllFiles');
+                config.checkHTML = true;
+                hexColors.run(config);
+                expect(utils.getAllFiles).toHaveBeenNthCalledWith(1, config.rootPath, ['.ts', '.js']);
+                jest.clearAllMocks();
+            });
         });
 
         test('should call validate line', () => {
