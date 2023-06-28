@@ -1,4 +1,5 @@
 const singleExport = require('../scripts/singleExport');
+const util = require('../scripts/utils');
 
 const config = {
     rootPath: '',
@@ -39,15 +40,15 @@ describe('single export', () => {
     
         test('should call get all files', () => {
             config.rootPath = './testFiles';
-            jest.spyOn(singleExport, 'getAllFiles');
+            jest.spyOn(util, 'getAllFiles');
             singleExport.run(config);
-            expect(jest.mocked(singleExport.getAllFiles).mock.calls).toHaveLength(1);
+            expect(util.getAllFiles).toHaveBeenCalledWith(config.rootPath, [".html", ".htm", ".scss", ".css", ".js", ".json"]);
         });
     
         test('should call validate file', () => {
             config.rootPath = './testFiles/singleExport/subfolder/';
             jest.spyOn(singleExport, 'validateFile');
-            jest.mocked(singleExport.getAllFiles).mockImplementation(() => {
+            jest.mocked(util.getAllFiles).mockImplementation(() => {
                 return ['./testFiles/singleExport/subfolder/validClass.ts'];
             });
             singleExport.run(config);
@@ -55,14 +56,6 @@ describe('single export', () => {
         });
     });
     
-    describe('get all files', () => {
-        test('should only include typescript file', () => {
-            const files = singleExport.getAllFiles('./testFiles');
-            const tsFiles = files.filter(f => f.endsWith('.ts'));
-            expect(tsFiles.length).toBe(files.length);
-        });
-    });
-
     describe('validate file', () => {
         test('multiple classes should fail', () => {
             const fileName = 'multipleClassExports.ts';
