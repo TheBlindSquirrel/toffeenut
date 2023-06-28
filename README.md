@@ -64,10 +64,11 @@ rootPath | '' | The root folder to search through for all ts files  | true
 ### **Plugin Only Called Once**
 **0.0.5**
 
-This test will search through all ts/js files under the supplied root folder looking for files that call the supplied plugins.
+This test will search through all ts files under the supplied root folder making sure that each plugin is only found in a single file.
 
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
+rootPath     | ''          | The top level directory that contains all the ts files to check | true
 enabled     | true          | If the test should be run | false
 pluginsArray | [] | Array of plugin names to look for, in addiiton to the official Capacitor plugins. This [list](./scripts/pluginList.js) contains all the plugins that Toffeenut will check by default. | false
 
