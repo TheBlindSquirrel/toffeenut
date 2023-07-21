@@ -2,7 +2,8 @@ const fs = require('fs');
 const Path = require("path");
 
 const utils = {
-    getAllFiles
+    getAllFiles,
+    getOnlyFiles
 }
 
 function getAllFiles(path, ignoreExtensions) {
@@ -16,6 +17,10 @@ function getAllFiles(path, ignoreExtensions) {
             const absolute = Path.join(path, File);
             const stats = fs.statSync(absolute);
             if (stats.isDirectory()) {
+                const dirName = Path.basename(absolute);
+                if (dirName.toLocaleLowerCase() === 'node_modules') {
+                    return files;
+                }
                 files = files.concat(this.getAllFiles(absolute, ignoreExtensions));
                 return files;
             }
@@ -28,6 +33,11 @@ function getAllFiles(path, ignoreExtensions) {
         });
     }
     return files;
+}
+
+function getOnlyFiles(path, extension) {
+    const files = this.getAllFiles(path, []);
+    return files.filter(f => Path.extname(f) === extension && !f.toString().endsWith('.spec.ts'));
 }
 
 module.exports = utils;
