@@ -16,8 +16,8 @@ function run(config) {
         return ["Plugins Only Called Once root path cannot be empty"];
     }
     const pluginsToCheck = pluginList;
-    if (Array.isArray(config.pluginsArray)) {
-        pluginsToCheck.concat(config.pluginsArray);
+    if (Array.isArray(config.pluginsArray) && config.pluginsArray.length > 0) {
+        pluginsToCheck.push(...config.pluginsArray);
     }
     const tsFiles = util.getOnlyFiles(config.rootPath, '.ts');
     const pluginMap = {};
@@ -52,11 +52,6 @@ function run(config) {
         }
     });
     return msgs;
-}
-
-function testLine(regExArr, lineToTest) {
-    let msg = undefined;
-    regExArr
 }
 
 module.exports = pluginsCheck;

@@ -28,7 +28,7 @@ const plugins = require('./scripts/plugins');
 const errorMsg = plugins.run({
     rootPath: './testfiles/plugins',
     enabled: true,
-    pluginsArray: []
+    pluginsArray: ['customPlugin/plugin']
 });
 
 errorMsg.forEach(msg => {
