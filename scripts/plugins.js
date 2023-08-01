@@ -20,35 +20,37 @@ function run(config) {
         pluginsToCheck.concat(config.pluginsArray);
     }
     const tsFiles = util.getOnlyFiles(config.rootPath, '.ts');
-    const regExArr = pluginList.map(p => new RegExp(`^import .+ (${p})$`, 'g'));
-    let regex = pluginList.join('|');
-    regex = `(${regex})`;
-    const regExp = new RegExp(`import\\s+{.+}.+from.+${regex}$`);
-    if (Array.isArray(tsFiles)) {        
-        /**
-         *  need an object to hold the plugin name and how many times the plugin is called. 
-         *  Ideally the error message would say "Plugin XXXX is called in 3 files"
-         */
-        const usedPlugins = {};
+    const pluginMap = {};
+    pluginList.forEach(p => pluginMap[p] = new RegExp(`${p}`, 'g'));
+    const usedPlugins = {};
+    if (Array.isArray(tsFiles)) {
         tsFiles.forEach(f => {
             const fileRead = fs.readFileSync(f, 'UTF-8');
             const data = fileRead.split(os.EOL);
-            data.forEach(line => {
-                
+            data.filter(l => l && l !== '' && l !== undefined).forEach(line => {                
+                pluginList.forEach(plugin => {
+                    const regex = pluginMap[plugin];
+                    const match = regex.test(line);
+                    if (match) {
+                        if (usedPlugins[plugin]) {
+                            const count = Number(usedPlugins[plugin]);
+                            usedPlugins[plugin] = (count + 1);
+                        } else {
+                            usedPlugins[plugin] = 1;
+                        }
+                    }
+                });
             });
-            const matches = new RegExp(regExp);
-            /**
-             * TODO:
-             *      loop over every file
-             *      inner loop over every plugin
-             *      create a regex that will check if plugin is imported
-             *      if plugin is found increase count
-             *      add message that "Plugin {..} was imported in {X} files"
-             */
-            
-            console.log(f);
         });
     }
+    pluginList.forEach(p => {
+        if(usedPlugins[p]) {
+            const count = Number(usedPlugins[p]);
+            if (count > 1) {
+                msgs.push(`Plugin ${p} is referenced in ${count} files.`);
+            }
+        }
+    });
     return msgs;
 }
 

@@ -26,7 +26,7 @@ const plugins = require('./scripts/plugins');
 // });
 
 const errorMsg = plugins.run({
-    rootPath: './testfiles',
+    rootPath: './testfiles/plugins',
     enabled: true,
     pluginsArray: []
 });
