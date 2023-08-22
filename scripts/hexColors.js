@@ -1,8 +1,19 @@
 const fs = require('fs');
 const Path = require("path");
 const os = require("os");
+const utils = require('./utils');
 
-function hexColors(config) {
+const hexColors = {
+    run,
+    validateLine,
+    checkForHexColors,
+    checkForRGBA
+};
+
+function run(config) {
+    config.colorsFilePath = config.colorsFilePath?.trim();
+    config.rootPath = config.rootPath?.trim();
+    
     if (!config.colorsFilePath) {
         return ["Hex Colors File Path cannot be empty"];
     }
@@ -10,7 +21,12 @@ function hexColors(config) {
         return ["Hex Colors root path cannot be empty"];
     }
     try{
-        var files = getAllFiles(config.rootPath, config.checkHTML);
+        const ignoreFileExts = ['.ts', '.js'];
+        if (!config.checkHTML) {
+            ignoreFileExts.push('.html');
+            ignoreFileExts.push('.htm');
+        }
+        var files = utils.getAllFiles(config.rootPath, ignoreFileExts);
         var messages = [];
         files = files.filter(x => Path.resolve(x) != Path.resolve(config.colorsFilePath));
         if (Array.isArray(config.ignoreFiles)){
@@ -19,20 +35,22 @@ function hexColors(config) {
                 files = files.filter(x => Path.dirname(Path.resolve(x)) != Path.dirname(Path.resolve(path)));
             });
         }
-        files.forEach(f => {
-            const fileName = Path.basename(f);
-            const fileExt = Path.extname(f);
-            const fileRead = fs.readFileSync(f, 'UTF-8');
-            const data = fileRead.split(os.EOL);
-            data.forEach(l => {
-                const result = validateLine(l, config, fileExt);
-                if(!result.isValid) {
-                    result.errorMessages.forEach(msg => {
-                        messages.push(`${fileName} ${msg}`);
-                    });
-                }
+        if(Array.isArray(files)) {
+            files.forEach(f => {
+                const fileName = Path.basename(f);
+                const fileExt = Path.extname(f);
+                const fileRead = fs.readFileSync(f, 'UTF-8');
+                const data = fileRead.split(os.EOL);
+                data.forEach(l => {
+                    const result = this.validateLine(l, config, fileExt);
+                    if(!result.isValid) {
+                        result.errorMessages.forEach(msg => {
+                            messages.push(`${fileName} ${msg}`);
+                        });
+                    }
+                });
             });
-        });
+        }
         return messages;
     } catch(err) {
         return[JSON.stringify(err)];
@@ -44,10 +62,10 @@ function validateLine(line, config, fileExt) {
         isValid: true,
         errorMessages: []
     };
-    const hexError = checkForHexColors(line, fileExt);
+    const hexError = this.checkForHexColors(line, fileExt);
     let rgbError = '';
     if (config.checkForRGBA) {
-        rgbError = checkForRGBA(line);
+        rgbError = this.checkForRGBA(line);
     }
     if(hexError) {
         result.isValid = false;
@@ -88,30 +106,6 @@ function checkForRGBA(line) {
         errorMessage = `${split[0].trim()} has a rgb/rgba color defined`;
     }
     return errorMessage;
-}
-
-function getAllFiles(path, ignoreHtml) {
-    let files = []
-    fs.readdirSync(path).forEach(File => {
-        const absolute = Path.join(path, File);
-        const stats = fs.statSync(absolute);
-        if (stats.isDirectory()) {
-            files = files.concat(getAllFiles(absolute));
-            return files;
-        }
-        else {
-            const fileExt = Path.extname(absolute);
-            const ignoreFileExts = ['.ts', '.eot', '.svg', '.ttf', '.woff', '.png', '.js'];
-            if (ignoreHtml) {
-                ignoreFileExts.push('.html');
-                ignoreFileExts.push('.htm');
-            }
-            if (!ignoreFileExts.includes(fileExt)) {
-                return files.push(absolute);
-            }
-        }
-    });
-    return files;
 }
 
 module.exports = hexColors;

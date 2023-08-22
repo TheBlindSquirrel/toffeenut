@@ -3,25 +3,33 @@ const checkPackageJson = require('./scripts/checkPackageJson');
 const run = require('./scripts/run');
 const singleExport = require('./scripts/singleExport');
 const hexColors = require('./scripts/hexColors');
+const plugins = require('./scripts/plugins');
 
-// run();
-// const errorMsg = checkPackageJson({
+// run.go()
+// const errorMsg = checkPackageJson.run({
 //     "enabled": false,
 //     "allowGithub": true,
-//     "requireGitCommit": false
+//     "requireGitCommit": false,
+//     "packagePath": "./testFiles/package.json"
 // });
-const errorMsg = singleExport({
-    'enabled': true,
-    'rootPath': './testFiles/singleExport'
-});
-// const errorMsg = hexColors( {
+// const errorMsg = singleExport.run({
+//     'enabled': true,
+//     'rootPath': './testFiles/singleExport'
+// });
+// const errorMsg = hexColors.run( {
 //     "enabled": true,
 //     "colorsFilePath": "./testFiles/hexColors/colorFile.scss",
 //     "checkHTML": true,
-//     "checkForRGBA": false,
+//     "checkForRGBA": true,
 //     "ignoreFiles": ["./testFiles/hexColors/ignoreThisFolder", "./testFiles/hexColors/ignoreThisFile.scss"],
 //     "rootPath": "./testFiles/hexColors"
 // });
+
+const errorMsg = plugins.run({
+    rootPath: './testfiles/plugins',
+    enabled: true,
+    pluginsArray: ['customPlugin/plugin']
+});
 
 errorMsg.forEach(msg => {
     console.error(msg.red);

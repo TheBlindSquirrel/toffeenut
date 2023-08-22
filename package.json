@@ -1,10 +1,12 @@
 {
   "name": "@theblindsquirrel/toffeenut",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "A library of fitness functions",
   "main": "index.js",
   "scripts": {
-    "start": "./index.js"
+    "start": "./index.js",
+    "test": "jest",
+    "watch": "npx jest --watch"
   },
   "repository": {
     "type": "git",
@@ -30,5 +32,7 @@
   "directories": {
     "bin": "./bin"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jest": "29.5.0"
+  }
 }

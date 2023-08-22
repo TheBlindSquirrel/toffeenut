@@ -1,5 +1,6 @@
 # Toffeenut
-
+![Toffeenut Develop Status](https://github.com/TheBlindSquirrel/toffeenut/actions/workflows/develop.yml/badge.svg?branch=develop)
+![Toffeenut Release Status](https://github.com/TheBlindSquirrel/toffeenut/actions/workflows/release.yml/badge.svg?branch=release)
 ## Design Psychology
 Toffeenut is intended to be a library of fitness functions. It is not intended to be framework, like Jasmine, that allows you create your tests. Toffeenut instead contains a set of predefined tests that you run against your code base. Each test can be enabled or disabled to suite your preferences and the coding standards of your team. Depending on how many tests are have enabled and the size of your code base, it is not recommended to run Toffeenut on every check-in. Instead the recommendation is to run the suite as part of your MR/PR process.
 
@@ -40,8 +41,13 @@ enabled     | true          | If the test should be run | false
 **since 0.0.2**
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
-allowGithub | true | If true any packages installed directly from a git server will be allowed | false
+allowGithub | true | If true any packages installed directly from a git server will be allowed. If false any git links will be marked as invalid and the test will fail. | false
+
+**since 0.0.4**
+Config Name | Default Value | Description               | Required
+:---------: | :-----------: | :---------:               | :--:
 requireGitCommit     | false          | This test will only run if allowGithub flag is also true. If true all packages installed from git must be pinned to a specific commit. | false
+packagePath | ./package.json | The location of the package.json file to test. | true
 
 
 ### **Single Export**
@@ -56,9 +62,15 @@ rootPath | '' | The root folder to search through for all ts files  | true
 
 
 ### **Plugin Only Called Once**
-**since TDB**
+**0.0.5**
 
-This test will search through all ts/js files under the supplied root folder looking for files that call the supplied plugins.
+This test will search through all ts files under the supplied root folder making sure that each plugin is only found in a single file.
+
+Config Name | Default Value | Description               | Required
+:---------: | :-----------: | :---------:               | :--:
+rootPath     | ''          | The top level directory that contains all the ts files to check | true
+enabled     | true          | If the test should be run | false
+pluginsArray | [] | Array of plugin names to look for, in addiiton to the official Capacitor plugins. This [list](./scripts/pluginList.js) contains all the plugins that Toffeenut will check by default. | false
 
 ### **File Referenced Outside Folder**
 **since TDB**
@@ -113,3 +125,14 @@ This test scans the code base for strings of the minimum length that are duplica
 **since TDB**
 
 This test is to prevent the style tag from being used in any html/htm file.
+
+
+### **Treat Errors as Warnings**
+**since TDB**
+
+This is a global setting that if true the build will not fail due to failing toffeenut tests.
+
+### **Duplicate Name**
+**since TDB**
+
+Checks if there are multiple files with the same name in different folders.

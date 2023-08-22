@@ -1,14 +1,24 @@
 const fs = require('fs');
 
-function checkPackageJson(testConfig) {
+const checkPackageJson = {
+    run,
+    checkDependencies
+}
+
+function run(testConfig) {
     let errorMessages = [];
+    testConfig.packagePath = testConfig.packagePath ?? '';
+    testConfig.packagePath = testConfig.packagePath.trim();
+    if (!testConfig.packagePath) {
+        return ["Package Path is required"]
+    }
     try {
-        const file = fs.readFileSync('./package.json');
+        const file = fs.readFileSync(testConfig.packagePath);
         const config = JSON.parse(file);
         const dependencies = config.dependencies;
-        const errors = checkDependencies(dependencies, testConfig);
+        const errors = this.checkDependencies(dependencies, testConfig);
         const devDependencies = config.devDependencies;
-        const devErrors = checkDependencies(devDependencies, testConfig);
+        const devErrors = this.checkDependencies(devDependencies, testConfig);
         errorMessages = errorMessages.concat(errors, devErrors);
     } catch (error) {
         errorMessages.push('Error loading package.json');
@@ -27,7 +37,16 @@ function checkDependencies(dependencies, testConfig) {
             const match = regex.test(version);
             if(version.startsWith('git')) {
                 if (testConfig.allowGithub) {
-                    continue;
+                    if(testConfig.requireGitCommit) {
+                        const gitCommitRegex = new RegExp('#\\w+$');
+                        const commitMatch = gitCommitRegex.test(version);
+                        if (commitMatch) {
+                            continue;
+                        }
+                        msgs.push(`Package ${packageName} is not set to a git commit.`);
+                    } else {
+                        continue;
+                    }
                 } else {
                     msgs.push(`Package ${packageName} is set to a git URL and git is not allowed.`);
                     continue;

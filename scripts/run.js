@@ -1,11 +1,15 @@
 const fs = require('fs');
-const colors = require('colors');
-const { exit } = require('process');
 const checkPackageJson = require('./checkPackageJson');
 const singleExport = require('./singleExport');
 const hexColors = require('./hexColors');
+const pluginOnlyOnce = require('./plugins');
 
-const run = function() {
+const run = {
+    go, 
+    exit
+}
+
+function go() {
     console.info('====== running toffeenut ==========');
     var errorMsg = [];
     var exitCode = 0;
@@ -15,17 +19,22 @@ const run = function() {
         const checkPackageEnabled = config.checkPackageJson && (config.checkPackageJson.enabled || config.checkPackageJson.enabled === undefined);
         const singleExportEnabled = config.singleExport && (config.singleExport.enabled || config.singleExport.enabled === undefined);
         const hexColorsEnabled = config.hexColors && (config.hexColors.enabled || config.hexColors.enabled === undefined);
+        const pluginsOnlyOnceEnabled = config.pluginOnlyCalledOnce && (config.pluginOnlyCalledOnce.enabled || config.pluginOnlyCalledOnce.enabled === undefined);
         if (checkPackageEnabled) {
-            errorMsg = errorMsg.concat(checkPackageJson(config.checkPackageJson));
+            errorMsg = errorMsg.concat(checkPackageJson.run(config.checkPackageJson));
         }
         if (singleExportEnabled) {
-            errorMsg = errorMsg.concat(singleExport(config.singleExport));
+            errorMsg = errorMsg.concat(singleExport.run(config.singleExport));
         }
         if (hexColorsEnabled) {
-            errorMsg = errorMsg.concat(hexColors(config.hexColors));
+            errorMsg = errorMsg.concat(hexColors.run(config.hexColors));
         }
-        if (!checkPackageEnabled && !singleExportEnabled && !hexColorsEnabled) {
+        if (pluginsOnlyOnceEnabled) {
+            errorMsg = errorMsg.concat(pluginOnlyOnce.run(config.pluginOnlyCalledOnce));
+        }
+        if (!checkPackageEnabled && !singleExportEnabled && !hexColorsEnabled && !pluginsOnlyOnceEnabled) {
             console.warn("Toffeenut loaded but not tests were enabled.".yellow);
+            this.exit(exitCode);
         }
     } catch(_) {
         errorMsg.push('Error loading toffeenut config file'.red);
@@ -40,9 +49,13 @@ const run = function() {
     } else {
         console.info('All Tests Passed'.green);
     }
+    this.exit(exitCode);
+}
 
+function exit(code) {
+    code = code ?? 0;
     console.info('====== toffeenut complete ==========');
-    process.exit(exitCode);
+    process.exit(code);
 }
 
 module.exports = run;

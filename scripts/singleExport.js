@@ -1,17 +1,27 @@
 const fs = require('fs');
 const Path = require("path");
+const util = require('./utils');
 
-function singleExport(config) {
+const singleExport = {
+    run,
+    validateFile
+}
+
+function run(config) {
+    if(config.rootPath) {
+        config.rootPath = config.rootPath.trim();
+    }
     if (!config.rootPath) {
         return ["Single Export Path cannot be empty"];
     }
     try{
         const errorMessages = [];
-        const files = getAllFiles(config.rootPath);
+        let files = util.getAllFiles(config.rootPath, ['.html', '.htm', '.scss', '.css', '.js', '.json']);
+        files = files.filter(x => Path.extname(x) === '.ts');
         files.forEach(file => {
             const fileName = Path.basename(file);
             const fileData = fs.readFileSync(file, 'UTF-8');
-            const msg = validateFile(fileData, fileName);
+            const msg = this.validateFile(fileData, fileName);
             if(msg) {
                 errorMessages.push(msg);
             }
@@ -38,24 +48,6 @@ function validateFile(fileData, fileName) {
         errorMsg = `${fileName} has multiple interface or class exports`;
     }
     return errorMsg;
-}
-
-function getAllFiles(path) {
-    let files = []
-    fs.readdirSync(path).forEach(File => {
-        const absolute = Path.join(path, File);
-        const stats = fs.statSync(absolute);
-        if (stats.isDirectory()) {
-            files = files.concat(getAllFiles(absolute));
-            return files;
-        }
-        else {
-            if (Path.extname(absolute) === '.ts' && !absolute.endsWith('.spec.ts')){
-                return files.push(absolute);
-            }
-        }
-    });
-    return files;
 }
 
 module.exports = singleExport;
