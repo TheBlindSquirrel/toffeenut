@@ -133,6 +133,6 @@ This test is to prevent the style tag from being used in any html/htm file.
 This is a global setting that if true the build will not fail due to failing toffeenut tests.
 
 ### **Duplicate Name**
-**since TDB**
+**0.0.6**
 
 Checks if there are multiple files with the same name in different folders.
