@@ -5,11 +5,11 @@ const os = require("os");
 
 const pluginsCheck = {
     run,
-    processFile
+    processFile,
+    generateErrorMessages
 };
 
 function run(config) {
-    let msgs = [];
     if(config.rootPath) {
         config.rootPath = config.rootPath.trim();
     }
@@ -26,38 +26,48 @@ function run(config) {
     let usedPlugins = {};
     if (Array.isArray(tsFiles)) {
         tsFiles.forEach(f => {
-            usedPlugins = this.processFile(f, pluginsToCheck, pluginMap, usedPlugins)
+            const fileRead = fs.readFileSync(f, 'UTF-8');
+            usedPlugins = this.processFile(fileRead, pluginsToCheck, pluginMap, usedPlugins)
         });
     }
-    pluginsToCheck.forEach(p => {
-        if(usedPlugins[p]) {
-            const count = Number(usedPlugins[p]);
-            if (count > 1) {
-                msgs.push(`Plugin ${p} is referenced in ${count} files.`);
-            }
-        }
-    });
+    const msgs = this.generateErrorMessages(pluginsToCheck, usedPlugins);
     return msgs;
 }
 
-function processFile(path, pluginsArr, regArr, alreadyUsedPlugins) {
-    const fileRead = fs.readFileSync(path, 'UTF-8');
-    const data = fileRead.split(os.EOL);
+function processFile(fileData, pluginsArr, regArr, alreadyUsedPlugins) {
+    const data = fileData.split(os.EOL);
     data.filter(l => l && l !== '' && l !== undefined).forEach(line => {                
         pluginsArr.forEach(plugin => {
             const regex = regArr[plugin];
-            const match = regex.test(line);
-            if (match) {
-                if (alreadyUsedPlugins[plugin]) {
-                    const count = Number(alreadyUsedPlugins[plugin]);
-                    alreadyUsedPlugins[plugin] = (count + 1);
-                } else {
-                    alreadyUsedPlugins[plugin] = 1;
+            if(regex) {
+                const match = regex.test(line);
+                if (match) {
+                    if (alreadyUsedPlugins[plugin]) {
+                        const count = Number(alreadyUsedPlugins[plugin]);
+                        alreadyUsedPlugins[plugin] = (count + 1);
+                    } else {
+                        alreadyUsedPlugins[plugin] = 1;
+                    }
                 }
             }
         });
     });
     return alreadyUsedPlugins;
+}
+
+function generateErrorMessages(pluginsArr, pluginCountObj) {
+    const msgs = [];
+    if (Array.isArray(pluginsArr) && pluginsArr.length > 0 && pluginCountObj) {
+        pluginsArr.forEach(p => {
+            if(pluginCountObj[p]) {
+                const count = Number(pluginCountObj[p]);
+                if (count > 1) {
+                    msgs.push(`Plugin ${p} is referenced in ${count} files.`);
+                }
+            }
+        });
+    }
+    return msgs;
 }
 
 module.exports = pluginsCheck;

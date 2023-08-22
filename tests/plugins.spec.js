@@ -55,9 +55,7 @@ describe('Plugins', () => {
             plugin.run(config);
             expect(util.getOnlyFiles).toHaveBeenCalledWith(config.rootPath, '.ts');
         });
-/**
- * 'import { Injectable } from '@angular/core';\r\nimport { Capacitor } from '@capacitor/core';\r\nimport * from '@capacitor/action-sheet';\r\nimport * from '@capacitor/app';\r\nimport * from '@capacitor/browser';\r\nimport * from '@capacitor/camera';\r\nimport * from '@capacitor/clipboard';\r\nimport * from '@capacitor/device';\r\nimport * from '@capacitor/dialog';\r\nimport * from '@capacitor/filesystem';\r\nimport * from '@capacitor/geolocation';\r\nimport * from '@capacitor/google-maps';\r\nimport * from '@capacitor/h…from '@capacitor/network';\r\nimport * from '@capacitor/preferences';\r\nimport * from '@capacitor/storage';\r\nimport * from '@capacitor/push-notifications';\r\nimport * from '@capacitor/screen-reader';\r\nimport * from '@capacitor/share';\r\nimport * from '@capacitor/splash-screen';\r\nimport * from '@capacitor/status-bar';\r\nimport * from '@capacitor/text-zoom';\r\nimport * from '@capacitor/toast';\r\n\r\n@Injectable({\r\n  providedIn: 'root',\r\n})\r\nexport class AllTheServicesService {\r\n  constructor() {}\r\n\r\n\r\n}\r\n'
- */
+        
         test('should handle custom plugins', () => {
             config.pluginsArray = ['customPlugin/plugin'];
             const errorMsgs = plugin.run(config);
@@ -82,6 +80,91 @@ describe('Plugins', () => {
         test('should not find the @capacitor/core plugin', () => {
             const errorMsgs = plugin.run(config);
             expect(errorMsgs).not.toContain('Plugin @capacitor/core is referenced in 2 files.');
+        });
+
+        test('should call process file', () => {
+            jest.spyOn(plugin, 'processFile');
+            plugin.run(config);
+            expect(plugin.processFile).toHaveBeenCalled();
+        });
+
+        test('should call generate error messages', () => {
+            jest.spyOn(plugin, 'generateErrorMessages');
+            plugin.run(config);
+            expect(plugin.generateErrorMessages).toHaveBeenCalled();
+        });
+    });
+
+    describe('process file', () => {
+        const fileData = "import { HttpClient } from '@angular/common/http';\r\nimport { CustomPlugin } from 'customPlugin/plugin';\r\nimport { Device } from '@capacitor/device';\r\n\r\n@Injectable({\r\n    providedIn: 'root',\r\n  })\r\n  export class CustomService {\r\n    constructor() {}\r\n  \r\n  \r\n  }";
+
+        test('should find 1 instance of custom plugin', () => {
+            const pluginName = 'customPlugin/plugin';
+            config.pluginsArray = [pluginName];
+            const regexMap = {};
+            regexMap[pluginName] = new RegExp(pluginName, 'g');
+            const actual = plugin.processFile(fileData, config.pluginsArray, regexMap, {});
+            expect(actual[pluginName]).toBe(1);
+        });
+
+        test('should find supplied plugin', () => {
+            const pluginName = '@capacitor/device';
+            config.pluginsArray = [pluginName, 'customPlugin/plugin'];
+            const regexMap = {};
+            regexMap[pluginName] = new RegExp(pluginName, 'g');
+            const actual = plugin.processFile(fileData, config.pluginsArray, regexMap, {});
+            expect(actual[pluginName]).toBe(1);
+        });
+
+        test('should return undefined when plugin is not found', () => {
+            const pluginName = '@capacitor/core';
+            config.pluginsArray = [pluginName, 'customPlugin/plugin'];
+            const regexMap = {};
+            regexMap[pluginName] = new RegExp(pluginName, 'g');
+            const actual = plugin.processFile(fileData, config.pluginsArray, regexMap, {});
+            expect(actual[pluginName]).toBeFalsy();
+        });
+    });
+
+    describe('generate error messages', () => {
+        describe('should return empty message array when ', () => {
+            test('plugins to check is empty', () => {
+                const actual = plugin.generateErrorMessages([], {});
+                expect(actual.length).toBe(0);
+            });
+    
+            test('plugins to check is not an array', () => {
+                const actual = plugin.generateErrorMessages({}, {});
+                expect(actual.length).toBe(0);
+            });
+    
+            test('plugins to check is undefined', () => {
+                const actual = plugin.generateErrorMessages(undefined, {});
+                expect(actual.length).toBe(0);
+            });
+    
+            test('plugin count object is null', () => {
+                const actual = plugin.generateErrorMessages([], null);
+                expect(actual.length).toBe(0);
+            });
+        });
+
+        test('should not return error message if plugin is only found once', () => {
+            const pluginName = '@capacitor/core';
+            const countObj = {};
+            countObj[pluginName] = 1;
+            const actual = plugin.generateErrorMessages([pluginName], countObj);
+            expect(actual).not.toContain(`Plugin ${pluginName} is referenced in 1 files.`);
+        });
+
+        test('should return error message if plugin is found more than once', () => {
+            const pluginName = '@capacitor/core';
+            const secondPlugin = '@capacitor/device';
+            const countObj = {};
+            countObj[pluginName] = 1;
+            countObj[secondPlugin] = 2;
+            const actual = plugin.generateErrorMessages([pluginName, secondPlugin], countObj);
+            expect(actual).toContain(`Plugin ${secondPlugin} is referenced in 2 files.`);
         });
     });
 });
