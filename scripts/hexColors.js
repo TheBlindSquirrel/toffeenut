@@ -1,13 +1,13 @@
 const fs = require('fs');
 const Path = require("path");
 const os = require("os");
+const utils = require('./utils');
 
 const hexColors = {
     run,
     validateLine,
     checkForHexColors,
-    checkForRGBA,
-    getAllFiles
+    checkForRGBA
 };
 
 function run(config) {
@@ -21,7 +21,12 @@ function run(config) {
         return ["Hex Colors root path cannot be empty"];
     }
     try{
-        var files = this.getAllFiles(config.rootPath, config.checkHTML);
+        const ignoreFileExts = ['.ts', '.js'];
+        if (!config.checkHTML) {
+            ignoreFileExts.push('.html');
+            ignoreFileExts.push('.htm');
+        }
+        var files = utils.getAllFiles(config.rootPath, ignoreFileExts);
         var messages = [];
         files = files.filter(x => Path.resolve(x) != Path.resolve(config.colorsFilePath));
         if (Array.isArray(config.ignoreFiles)){
@@ -101,30 +106,6 @@ function checkForRGBA(line) {
         errorMessage = `${split[0].trim()} has a rgb/rgba color defined`;
     }
     return errorMessage;
-}
-
-function getAllFiles(path, ignoreHtml) {
-    let files = []
-    fs.readdirSync(path).forEach(File => {
-        const absolute = Path.join(path, File);
-        const stats = fs.statSync(absolute);
-        if (stats.isDirectory()) {
-            files = files.concat(getAllFiles(absolute));
-            return files;
-        }
-        else {
-            const fileExt = Path.extname(absolute);
-            const ignoreFileExts = ['.ts', '.eot', '.svg', '.ttf', '.woff', '.png', '.js'];
-            if (ignoreHtml) {
-                ignoreFileExts.push('.html');
-                ignoreFileExts.push('.htm');
-            }
-            if (!ignoreFileExts.includes(fileExt)) {
-                return files.push(absolute);
-            }
-        }
-    });
-    return files;
 }
 
 module.exports = hexColors;

@@ -2,6 +2,7 @@ const fs = require('fs');
 const checkPackageJson = require('./checkPackageJson');
 const singleExport = require('./singleExport');
 const hexColors = require('./hexColors');
+const pluginOnlyOnce = require('./plugins');
 
 const run = {
     go, 
@@ -18,6 +19,7 @@ function go() {
         const checkPackageEnabled = config.checkPackageJson && (config.checkPackageJson.enabled || config.checkPackageJson.enabled === undefined);
         const singleExportEnabled = config.singleExport && (config.singleExport.enabled || config.singleExport.enabled === undefined);
         const hexColorsEnabled = config.hexColors && (config.hexColors.enabled || config.hexColors.enabled === undefined);
+        const pluginsOnlyOnceEnabled = config.pluginOnlyCalledOnce && (config.pluginOnlyCalledOnce.enabled || config.pluginOnlyCalledOnce.enabled === undefined);
         if (checkPackageEnabled) {
             errorMsg = errorMsg.concat(checkPackageJson.run(config.checkPackageJson));
         }
@@ -27,7 +29,10 @@ function go() {
         if (hexColorsEnabled) {
             errorMsg = errorMsg.concat(hexColors.run(config.hexColors));
         }
-        if (!checkPackageEnabled && !singleExportEnabled && !hexColorsEnabled) {
+        if (pluginsOnlyOnceEnabled) {
+            errorMsg = errorMsg.concat(pluginOnlyOnce.run(config.pluginOnlyCalledOnce));
+        }
+        if (!checkPackageEnabled && !singleExportEnabled && !hexColorsEnabled && !pluginsOnlyOnceEnabled) {
             console.warn("Toffeenut loaded but not tests were enabled.".yellow);
             this.exit(exitCode);
         }

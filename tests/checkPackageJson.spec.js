@@ -1,4 +1,4 @@
-const checkPackageJson = require('./checkPackageJson');
+const checkPackageJson = require('../scripts/checkPackageJson');
 const fs = require('fs');
 
 let config = {

@@ -3,8 +3,9 @@ const checkPackageJson = require('./scripts/checkPackageJson');
 const run = require('./scripts/run');
 const singleExport = require('./scripts/singleExport');
 const hexColors = require('./scripts/hexColors');
+const plugins = require('./scripts/plugins');
 
-run.go()
+// run.go()
 // const errorMsg = checkPackageJson.run({
 //     "enabled": false,
 //     "allowGithub": true,
@@ -23,6 +24,12 @@ run.go()
 //     "ignoreFiles": ["./testFiles/hexColors/ignoreThisFolder", "./testFiles/hexColors/ignoreThisFile.scss"],
 //     "rootPath": "./testFiles/hexColors"
 // });
+
+const errorMsg = plugins.run({
+    rootPath: './testfiles/plugins',
+    enabled: true,
+    pluginsArray: ['customPlugin/plugin']
+});
 
 errorMsg.forEach(msg => {
     console.error(msg.red);

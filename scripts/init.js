@@ -19,7 +19,12 @@ const init = function() {
             \t"checkForRGBA": true, \r\n\
             \t"ignoreFiles" : [], \r\n\
             \t"colorsFilePath": \"\" \r\n\
-        }\r\n \
+        },\r\n \
+        "pluginOnlyCalledOnce": {\r\n\
+            \t"rootPath" : \"\", \r\n\
+            \t"enabled": true, \r\n\
+            \t"pluginsArray": [] \r\n\
+        }\r\n\
     }');
 }
 

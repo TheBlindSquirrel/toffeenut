@@ -43,7 +43,7 @@ Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
 allowGithub | true | If true any packages installed directly from a git server will be allowed. If false any git links will be marked as invalid and the test will fail. | false
 
-**since 0.0.3**
+**since 0.0.4**
 Config Name | Default Value | Description               | Required
 :---------: | :-----------: | :---------:               | :--:
 requireGitCommit     | false          | This test will only run if allowGithub flag is also true. If true all packages installed from git must be pinned to a specific commit. | false
@@ -62,9 +62,15 @@ rootPath | '' | The root folder to search through for all ts files  | true
 
 
 ### **Plugin Only Called Once**
-**since TDB**
+**0.0.5**
 
-This test will search through all ts/js files under the supplied root folder looking for files that call the supplied plugins.
+This test will search through all ts files under the supplied root folder making sure that each plugin is only found in a single file.
+
+Config Name | Default Value | Description               | Required
+:---------: | :-----------: | :---------:               | :--:
+rootPath     | ''          | The top level directory that contains all the ts files to check | true
+enabled     | true          | If the test should be run | false
+pluginsArray | [] | Array of plugin names to look for, in addiiton to the official Capacitor plugins. This [list](./scripts/pluginList.js) contains all the plugins that Toffeenut will check by default. | false
 
 ### **File Referenced Outside Folder**
 **since TDB**
