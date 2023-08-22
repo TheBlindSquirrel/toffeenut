@@ -15,20 +15,20 @@ function run(config) {
     if (!config.rootPath) {
         return ["Plugins Only Called Once root path cannot be empty"];
     }
-    const pluginsToCheck = pluginList;
+    const pluginsToCheck = [...pluginList];
     if (Array.isArray(config.pluginsArray) && config.pluginsArray.length > 0) {
         pluginsToCheck.push(...config.pluginsArray);
     }
     const tsFiles = util.getOnlyFiles(config.rootPath, '.ts');
     const pluginMap = {};
-    pluginList.forEach(p => pluginMap[p] = new RegExp(`${p}`, 'g'));
+    pluginsToCheck.forEach(p => pluginMap[p] = new RegExp(`${p}`, 'g'));
     const usedPlugins = {};
     if (Array.isArray(tsFiles)) {
         tsFiles.forEach(f => {
             const fileRead = fs.readFileSync(f, 'UTF-8');
             const data = fileRead.split(os.EOL);
             data.filter(l => l && l !== '' && l !== undefined).forEach(line => {                
-                pluginList.forEach(plugin => {
+                pluginsToCheck.forEach(plugin => {
                     const regex = pluginMap[plugin];
                     const match = regex.test(line);
                     if (match) {
@@ -43,7 +43,7 @@ function run(config) {
             });
         });
     }
-    pluginList.forEach(p => {
+    pluginsToCheck.forEach(p => {
         if(usedPlugins[p]) {
             const count = Number(usedPlugins[p]);
             if (count > 1) {
