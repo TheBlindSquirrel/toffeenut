@@ -4,7 +4,8 @@ const fs = require('fs');
 const os = require("os");
 
 const pluginsCheck = {
-    run
+    run,
+    processFile
 };
 
 function run(config) {
@@ -22,25 +23,10 @@ function run(config) {
     const tsFiles = util.getOnlyFiles(config.rootPath, '.ts');
     const pluginMap = {};
     pluginsToCheck.forEach(p => pluginMap[p] = new RegExp(`${p}`, 'g'));
-    const usedPlugins = {};
+    let usedPlugins = {};
     if (Array.isArray(tsFiles)) {
         tsFiles.forEach(f => {
-            const fileRead = fs.readFileSync(f, 'UTF-8');
-            const data = fileRead.split(os.EOL);
-            data.filter(l => l && l !== '' && l !== undefined).forEach(line => {                
-                pluginsToCheck.forEach(plugin => {
-                    const regex = pluginMap[plugin];
-                    const match = regex.test(line);
-                    if (match) {
-                        if (usedPlugins[plugin]) {
-                            const count = Number(usedPlugins[plugin]);
-                            usedPlugins[plugin] = (count + 1);
-                        } else {
-                            usedPlugins[plugin] = 1;
-                        }
-                    }
-                });
-            });
+            usedPlugins = this.processFile(f, pluginsToCheck, pluginMap, usedPlugins)
         });
     }
     pluginsToCheck.forEach(p => {
@@ -52,6 +38,26 @@ function run(config) {
         }
     });
     return msgs;
+}
+
+function processFile(path, pluginsArr, regArr, alreadyUsedPlugins) {
+    const fileRead = fs.readFileSync(path, 'UTF-8');
+    const data = fileRead.split(os.EOL);
+    data.filter(l => l && l !== '' && l !== undefined).forEach(line => {                
+        pluginsArr.forEach(plugin => {
+            const regex = regArr[plugin];
+            const match = regex.test(line);
+            if (match) {
+                if (alreadyUsedPlugins[plugin]) {
+                    const count = Number(alreadyUsedPlugins[plugin]);
+                    alreadyUsedPlugins[plugin] = (count + 1);
+                } else {
+                    alreadyUsedPlugins[plugin] = 1;
+                }
+            }
+        });
+    });
+    return alreadyUsedPlugins;
 }
 
 module.exports = pluginsCheck;
